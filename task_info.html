@@ -19,21 +19,21 @@
             <!-- NavBABABABr start -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a class="navbar-brand" href="./">SiParrots</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Общий календарь</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Список проектов</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Проект</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./">Список проектов</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./calendar">Общий календарь</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./project/{{ .id }}">Проект</a>
+                        </li>
                     </ul>
                     <div class="d-flex">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Выход</button>
@@ -48,27 +48,27 @@
             <div id="task">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="taskName">Название</span>
-                    <input type="text" class="form-control" placeholder="Task Name" aria-label="Task Name" value="Задание 1" aria-describedby="taskName">
+                    <input type="text" class="form-control" placeholder="Task Name" aria-label="Task Name" value="{{ .title }}" aria-describedby="taskName">
                 </div>
                 
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="startDate">Дата начала</span>
-                    <input type="date" class="form-control"  aria-describedby="startDate">
+                    <input type="date" class="form-control" value="{{ .startDate }}" aria-describedby="startDate">
                 </div>
 
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="endDate">Дата оканчания</span>
-                    <input type="date" class="form-control"  aria-describedby="endDate">
+                    <input type="date" class="form-control" value="{{ .endDate }}" aria-describedby="endDate">
                 </div>
 
                 <div class="input-group mb-3">
                     <span class="input-group-text">Описание</span>
-                    <textarea class="form-control" aria-label="Описание">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestias expedita, deserunt pariatur aperiam corrupti iste, sit optio dignissimos amet laudantium soluta sint error quidem enim illum fugiat asperiores explicabo aliquid!</textarea>
+                    <textarea class="form-control" aria-label="Описание"> {{ .text }} </textarea>
                 </div>
 
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="persons">Ответственные</span>
-                    <input type="text" class="form-control" placeholder="Persons" aria-label="Persons" value="Иванов Иван Иванович" aria-describedby="persons">
+                    <input type="text" class="form-control" placeholder="Persons" aria-label="Persons" value="{{ .person }}" aria-describedby="persons">
                 </div>
             </div>
         </div>
