@@ -1,7 +1,7 @@
 package main
 
 import (
-	"awesomeProject4/database"
+	"awesomeProject4/databasegorm"
 	"awesomeProject4/model"
 	"encoding/json"
 	"fmt"
@@ -12,7 +12,9 @@ import (
 var router *gin.Engine
 
 func main() {
-	database.ConectDataBase()
+	//database.ConectDataBase()
+	//database.QueryDemo()
+	databasegorm.Init()
 	router := gin.Default()
 
 	router.LoadHTMLGlob("html/*.html")   //шаблоны
