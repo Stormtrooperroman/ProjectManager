@@ -1,8 +1,9 @@
 package main
 
 import (
-	"awesomeProject4/databasegorm"
+	"awesomeProject4/datamysql"
 	"awesomeProject4/model"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -12,9 +13,19 @@ import (
 var router *gin.Engine
 
 func main() {
-	//database.ConectDataBase()
-	//database.QueryDemo()
-	databasegorm.Init()
+	//подключение к БД
+	db, err := sql.Open("mysql", "")
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+	fmt.Println("DataBase_is_WORK")
+	//запросы к бд
+	datamysql.ExtractData(db)
+	datamysql.ExtractData(db)
+	datamysql.ExtractData(db)
+
 	router := gin.Default()
 
 	router.LoadHTMLGlob("html/*.html")   //шаблоны
