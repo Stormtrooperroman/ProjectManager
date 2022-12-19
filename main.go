@@ -14,7 +14,7 @@ var router *gin.Engine
 
 func main() {
 	//подключение к БД
-	db, err := sql.Open("mysql", "")
+	db, err := sql.Open("mysql", "")// добавь данные для подключения
 	if err != nil {
 		panic(err)
 	}
