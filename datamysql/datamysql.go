@@ -24,3 +24,22 @@ func ExtractData(db *sql.DB) {
 	fmt.Println(u.LName, " ", u.FName) //пример как вырывать параметры из запроса
 
 }
+
+func AddData(db *sql.DB) {
+	result, err := db.Exec("insert into employees (id, first_name,last_name,post) values (?,?, ?, ?)", "8", "fuck", "fuck", "fuck")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(result.LastInsertId()) // id добавленного объекта
+	fmt.Println(result.RowsAffected()) // количество затронутых строк
+}
+
+func DelData(db *sql.DB) {
+	result, err := db.Exec("delete from employees where id = ?", "8")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(result.LastInsertId()) // id последнего удаленого объекта
+	fmt.Println(result.RowsAffected()) // количество затронутых строк
+
+}

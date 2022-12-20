@@ -1,7 +1,6 @@
 package model
 
-type User struct {
-	Id    uint
+type Registr struct {
 	Login string
 	Pass  string
 }
