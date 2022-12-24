@@ -48,7 +48,13 @@ $("#update").click(function (e) {
     let start_date_val = $("#startDate").val();
     let end_date_val = $("#endDate").val();
     let description_val = $("#description").val();
-    let person_val = $("#person").val();
+    let person_val = []
+    let persons_data = [].slice.call(document.querySelectorAll('.toast-body'))
+    console.log(persons_data)
+    persons_data.forEach(toaster => {
+        person_val.push(toaster["innerText"])
+    });
+    console.log(person_val)
     let send_data = JSON.stringify({
         title: title_name,
         startDate: start_date_val,
