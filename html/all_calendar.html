@@ -7,41 +7,16 @@
         <title> Общий календарь </title>
 
         <!-- Bootstrap style start -->
-        <link rel="stylesheet" href="static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./static/css/bootstrap.min.css">
         <!-- Bootstrap style end -->
 
         <!-- Page style start -->
-        <link rel="stylesheet" href="static/css/calendar.css">
+        <link rel="stylesheet" href="./static/css/calendar.css">
         <!-- Page style end -->
 
         <!-- FullCalenar part start -->
-        <link href='static/fullcalendar/main.css' rel='stylesheet' />
-        <script src='static/fullcalendar/main.js'></script>
-        <script>
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            
-            // Use AJAX AHAHAHAHAHAAHHAHAHAHAHAHHAHAHAHAHAHA
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                // events: [
-                //     {
-                //     title  : 'event1',
-                //     start  : '2022-12-01',
-                //     end    : '9999-12-17'
-                //     },
-                //     {
-                //     title  : 'event2',
-                //     start  : '2022-12-15',
-                //     end    : '2022-12-17'
-                //     }
-                // ]
-
-            });
-            calendar.render();
-        });
-        </script>
+        <link href='./static/fullcalendar/main.css' rel='stylesheet' />
+        <script src='./static/fullcalendar/main.js'></script>
 
         <!-- FullCalenar part end -->
     </head>
@@ -74,5 +49,14 @@
             <div id='calendar'></div>
 
         </div>
+
+        <!-- Bootstrap script start -->
+        <script src="./static/js/bootstrap.min.js"></script>
+        <!-- Bootstrap script end -->
+        <!-- JQuery script start -->
+        <script src="./static/js/jquery.min.js"></script>
+        <!-- JQuery script end -->
+
+        <script src="./static/js/all_calendar.js"></script>
     </body>
 </html>

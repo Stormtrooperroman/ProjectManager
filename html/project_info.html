@@ -7,11 +7,11 @@
         <title>Проект</title>
 
         <!-- Bootstrap style start -->
-        <link rel="stylesheet" href="static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../static/css/bootstrap.min.css">
         <!-- Bootstrap style end -->
 
         <!-- Page style start -->
-        <link rel="stylesheet" href="static/css/info.css">
+        <link rel="stylesheet" href="../static/css/info.css">
         <!-- Page style end -->
     </head>
     <body>
@@ -19,20 +19,20 @@
             <!-- NavBABABABr start -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                <a class="navbar-brand" href="./">SiParrots</a>
+                <a class="navbar-brand" href="../">SiParrots</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="./">Список проектов</a>
+                            <a class="nav-link active" aria-current="page" href="../">Список проектов</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="./calendar">Общий календарь</a>
+                            <a class="nav-link active" aria-current="page" href="../calendar">Общий календарь</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="./project/{{ .id }}">Проект</a>
+                            <a class="nav-link active" aria-current="page" href="../calendar/{{ .id }}">Проект</a>
                         </li>
                     </ul>
                     <div class="d-flex">
@@ -43,24 +43,44 @@
             </nav>
             <!-- NavBABABABr end -->
 
+            <div class="row">
+                <div class="col">
+                    <a href="../edit/{{ .id }}" class="btn btn-lg btn-outline-secondary btn-block" type="button">Изменить данные</a>
+                </div>
+                <div class="col">
+                    <a type="button" class="btn btn-outline-primary" href="../project/{{ .Id }}/task/">Добавить задачу</a>
+                </div>
+            </div>
+            
+            <div class="text-center">
+            <h1> {{ .project_desc }}</h1>
+            {{ .project_start }} - {{ .project_end }}
+
+            <p>
+                {{ .project_desc }}
+            </p>
+
             {{ range .tasks }}
-                <div class="row">
+                <div class="row position-relative">
                     <div class="col-1">
                         Ok
                     </div>
                     <div class="col-2">
-                        {{ .startDate }} - {{ .endDate }}
+                        {{ .Start }} - {{ .End }}
                     </div>
                     <div class="col-3">
-                        {{ .title }}
+                        {{ .Title }}
                     </div>
                     <div class="col-6">
-                        {{ .text }}
+                        {{ .Text }}
                     </div>
-                    <a href="./project/{{ .id }}/task/{{ .num }}" class="stretched-link"></a>
+                    <a href="{{ .Url }}" class="stretched-link"></a>
                 </div>
             {{ end }}
-
         </div>
+        </div>
+    <!-- Bootstrap script start -->
+    <script src="../static/js/bootstrap.min.js"></script>
+    <!-- Bootstrap script end -->
     </body>
 </html>
