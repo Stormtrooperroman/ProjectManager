@@ -40,6 +40,8 @@ func main() {
 	router.GET("/edit/:id/", edit_info)
 	router.GET("/edit/", create_project)
 	router.GET("/project/:id/task/", create_task)
+	router.GET("/new_person", create_login)
+
 	// api
 	router.GET("/api/login", registration)
 	router.GET("/api/tasks", get_all_calendar)
@@ -47,6 +49,7 @@ func main() {
 	router.POST("/api/project/:id/task/:task_id", update_task)
 	router.POST("/api/project/", add_project)
 	router.POST("/api/project/:id", update_project)
+	router.POST("/api/new_login", new_login)
 	router.Run(":3001")
 
 }
@@ -76,6 +79,7 @@ func projects_page(c *gin.Context) {
 		}
 		c.HTML(200, "projects.html", gin.H{
 			"projects": projectsData,
+			"admin": true,
 		})
 	} else {
 		// redirect to /login
@@ -288,4 +292,15 @@ func create_task(c *gin.Context) {
 		"all_persons": all_persons,
 		"id":          1,
 	})
+}
+
+func create_login(c *gin.Context) {
+	c.HTML(200, "create_login.html", gin.H{
+		"admin": true,
+	})
+}
+
+
+func new_login(c *gin.Context) {
+	// Сохраняем данные. 
 }

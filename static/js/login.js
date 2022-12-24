@@ -1,6 +1,13 @@
 $("#send").click(function (e) {
     let name = $("#inputLogin").val();
     let pass = $("#inputPassword").val();
+
+    if (name == "" || pass == "")
+    {
+        // show error
+        return
+    }
+
     let send_data = JSON.stringify({
         username: name,
         password: pass
