@@ -13,7 +13,7 @@ var router *gin.Engine
 func main() {
 	//подключение к БД
 	datamysql.Conect()
-	datamysql.ExtractData(datamysql.Db)
+	//datamysql.ExtractData(datamysql.Db, "sib_coder")
 	//datamysql.DelData(db)
 
 	router := gin.Default()

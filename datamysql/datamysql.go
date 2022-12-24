@@ -20,10 +20,9 @@ func Conect() {
 	fmt.Println("DataBase_is_WORK")
 }
 
-func ExtractData(db *sqlx.DB) {
-
+func ExtractData(db *sqlx.DB, login string) { //получение пользователя из бд
 	var u model.User_DB
-	res, err := db.Query("SELECT `first_name`,`last_name` FROM `employees` WHERE `first_name`= 'Daniil';")
+	res, err := db.Query("SELECT `first_name`,`last_name` FROM `employees` WHERE `login`= ?;", login)
 	if err != nil {
 		panic(err)
 	}
@@ -34,6 +33,12 @@ func ExtractData(db *sqlx.DB) {
 		}
 		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
 	}
+	if u.LName != "" && u.FName != "" {
+		privat_info.Admin = true
+	} else {
+		privat_info.Admin = false
+	}
+
 	fmt.Println(u.LName, " ", u.FName) //пример как вырывать параметры из запроса
 
 }
