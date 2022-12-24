@@ -44,7 +44,7 @@ func Registration(c *gin.Context) {
 	decode := json.NewDecoder(c.Request.Body).Decode(&user)
 	fmt.Println(user)                       // структура с json внутри
 	fmt.Println(user.Login, " ", user.Pass) //провера состояния в постмане
-	datamysql.ExtractData(datamysql.Db, string(user.Login))
+	datamysql.ExtractData(datamysql.Db, string(user.Login), string(user.Pass))
 	fmt.Println(privat_info.Admin)
 	if decode != nil {
 		c.JSON(http.StatusOK, gin.H{

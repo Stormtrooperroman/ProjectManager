@@ -20,9 +20,9 @@ func Conect() {
 	fmt.Println("DataBase_is_WORK")
 }
 
-func ExtractData(db *sqlx.DB, login string) { //получение пользователя из бд
+func ExtractData(db *sqlx.DB, login string, password string) { //получение пользователя из бд
 	var u model.User_DB
-	res, err := db.Query("SELECT `first_name`,`last_name` FROM `employees` WHERE `login`= ?;", login)
+	res, err := db.Query("SELECT `first_name`,`last_name` FROM `employees` WHERE `login`= ? AND `password` = ?;", login, password)
 	if err != nil {
 		panic(err)
 	}
