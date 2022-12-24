@@ -43,6 +43,10 @@
             </nav>
             <!-- NavBABABABr end -->
 
+            <div class="d-flex">
+                <a href="../edit/{{ .id }}" class="btn btn-lg btn-outline-secondary btn-block" type="button">Изменить данные</a>
+            </div>
+            <div class="text-center">
             <h1> {{ .project_desc }}</h1>
             {{ .project_start }} - {{ .project_end }}
 
@@ -67,7 +71,7 @@
                     <a href="{{ .Url }}" class="stretched-link"></a>
                 </div>
             {{ end }}
-
+        </div>
         </div>
     <!-- Bootstrap script start -->
     <script src="../static/js/bootstrap.min.js"></script>

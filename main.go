@@ -37,14 +37,17 @@ func main() {
 	router.GET("/calendar/:id", project_calendar)
 	router.GET("/project/:id", project_info)
 	router.GET("/project/:id/task/:task_id", task_info)
+	router.GET("/edit/:id/", edit_info)
+	router.GET("/edit/", create_project)
 
 	// api
 	router.GET("/api/login", registration)
 	router.GET("/api/tasks", get_all_calendar)
 	router.GET("/api/tasks/:id", get_tasks)
 	router.POST("/api/project/:id/task/:task_id", update_task)
-
-	router.Run(":3000")
+	router.POST("/api/project/", add_project)
+	router.POST("/api/project/:id", update_project)
+	router.Run(":3001")
 
 }
 
@@ -243,5 +246,28 @@ func task_info(c *gin.Context) {
 }
 
 func update_task(c *gin.Context) {
+	// update data base AHAHAHHAHAHAA
+}
+
+func edit_info(c *gin.Context) {
+	project_title := "Hello world"
+	project_desc := "Lorem Ipsum hahahahahahahahhaa"
+	c.HTML(200, "edit_info.html", gin.H{
+		"title": project_title,
+		"text":  project_desc,
+		"id":    1,
+		"color": "#FFA000",
+	})
+}
+
+func update_project(c *gin.Context) {
+	// update data base AHAHAHHAHAHAA
+}
+
+func create_project(c *gin.Context) {
+	c.HTML(200, "create_project.html", nil)
+}
+
+func add_project(c *gin.Context) {
 	// update data base AHAHAHHAHAHAA
 }

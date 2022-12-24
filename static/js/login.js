@@ -15,7 +15,7 @@ $("#send").click(function (e) {
             console.log(response);
             if (response['login'] == 'true') {
                 // let old = window.location.href;
-                window.location.href = "http://localhost:3000/";
+                window.location.href = "http://localhost:3001/";
             }
         }
     });
