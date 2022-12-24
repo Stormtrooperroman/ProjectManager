@@ -43,9 +43,15 @@
             </nav>
             <!-- NavBABABABr end -->
 
-            <div class="d-flex">
-                <a href="../edit/{{ .id }}" class="btn btn-lg btn-outline-secondary btn-block" type="button">Изменить данные</a>
+            <div class="row">
+                <div class="col">
+                    <a href="../edit/{{ .id }}" class="btn btn-lg btn-outline-secondary btn-block" type="button">Изменить данные</a>
+                </div>
+                <div class="col">
+                    <a type="button" class="btn btn-outline-primary" href="../project/{{ .Id }}/task/">Добавить задачу</a>
+                </div>
             </div>
+            
             <div class="text-center">
             <h1> {{ .project_desc }}</h1>
             {{ .project_start }} - {{ .project_end }}

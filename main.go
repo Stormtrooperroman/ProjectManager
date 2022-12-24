@@ -39,7 +39,7 @@ func main() {
 	router.GET("/project/:id/task/:task_id", task_info)
 	router.GET("/edit/:id/", edit_info)
 	router.GET("/edit/", create_project)
-
+	router.GET("/project/:id/task/", create_task)
 	// api
 	router.GET("/api/login", registration)
 	router.GET("/api/tasks", get_all_calendar)
@@ -270,4 +270,22 @@ func create_project(c *gin.Context) {
 
 func add_project(c *gin.Context) {
 	// update data base AHAHAHHAHAHAA
+}
+
+func create_task(c *gin.Context) {
+	all_persons := []Person{
+		Person{
+			Name: "Синицын Даниил",
+		},
+		Person{
+			Name: "Иванов Иван Иванович",
+		},
+		Person{
+			Name: "HAHAHAHAHAHAHHAHA",
+		},
+	}
+	c.HTML(200, "create_task.html", gin.H{
+		"all_persons": all_persons,
+		"id":          1,
+	})
 }

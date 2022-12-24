@@ -17,30 +17,7 @@
         <!-- FullCalenar part start -->
         <link href='../static/fullcalendar/main.css' rel='stylesheet' />
         <script src='../static/fullcalendar/main.js'></script>
-        <script>
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            // Use AJAX AHAHAHAHAHAAHHAHAHAHAHAHHAHAHAHAHAHA
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                // events: [
-                //     {
-                //     title  : 'event1',
-                //     start  : '2022-12-01',
-                //     end    : '9999-12-17'
-                //     },
-                //     {
-                //     title  : 'event2',
-                //     start  : '2022-12-15',
-                //     end    : '2022-12-17'
-                //     }
-                // ]
-
-            });
-            calendar.render();
-        });
-        </script>
+        
 
         <!-- FullCalenar part end -->
     </head>
@@ -69,8 +46,14 @@
                 </div>
             </nav>
             <!-- NavBABABABr end -->
-
-            <a type="button" class="btn btn-outline-primary" href="../project/{{ .Id }}">Посмотреть сводную информацию по проекту</a>
+            <div class="row">
+                <div class="col">
+                    <a type="button" class="btn btn-outline-primary" href="../project/{{ .Id }}">Посмотреть сводную информацию по проекту</a>
+                </div>
+                <div class="col">
+                    <a type="button" class="btn btn-outline-primary" href="../project/{{ .Id }}/task/">Добавить задачу</a>
+                </div>
+            </div>
 
             <div id='calendar'></div>
         </div>
