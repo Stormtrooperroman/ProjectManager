@@ -20,24 +20,35 @@ func Conect() {
 	fmt.Println("DataBase_is_WORK")
 }
 
-func ExtractData(db *sqlx.DB, login string, password string) { //получение пользователя из бд
+func ExtractData(db *sqlx.DB, login string, password string) model.Is_login { //получение пользователя из бд
 	var u model.User_DB
-	res, err := db.Query("SELECT `first_name`,`last_name`,`id` FROM `employees` WHERE `login`= ? AND `password` = ?;", login, password)
+	res, err := db.Query("SELECT `first_name`,`last_name`,`id`, `is_admin` FROM `employees` WHERE `login`= ? AND `password` = ?;", login, password)
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&u.FName, &u.LName, &u.Id)
+		err = res.Scan(&u.FName, &u.LName, &u.Id, &u.Admin)
 		if err != nil {
 			panic(err)
 		}
 		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
 	}
-	if u.LName != "" && u.FName != "" {
-		privat_info.Admin = true
-	} else {
-		privat_info.Admin = false
+	result := model.Is_login{
+		Login: false,
+		Admin: false,
 	}
+	if u.LName != "" && u.FName != "" {
+		privat_info.Login = true
+		result.Login = true
+		if u.Admin == 1 {
+			result.Admin = true
+			result.Id = u.Id
+		}
+	} else {
+		privat_info.Login = false
+	}
+
+	return result
 	//fmt.Println(u.LName, " ", u.FName) //пример как вырывать параметры из запроса
 
 }
@@ -58,5 +69,47 @@ func DelData(db *sqlx.DB) {
 	}
 	fmt.Println(result.LastInsertId()) // id последнего удаленого объекта
 	fmt.Println(result.RowsAffected()) // количество затронутых строк
+
+}
+func ExtractData_Projects() []model.Projects {
+
+	var data model.Projects
+	var data_mas []model.Projects
+	res, err := Db.Query("SELECT `name`,`id`, `description` FROM `projects` ;")
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&data.Title, &data.Id, &data.Text)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(fmt.Sprintf("in database have %s , %d, %s ", data.Title, data.Id, data.Text))
+		data_mas = append(data_mas, data)
+	}
+	fmt.Println(data_mas)
+	fmt.Println(data.Title, " ", data.Id, " ", data.Text) //пример как вырывать параметры из запроса
+	return data_mas
+
+}
+
+func ExtractDataProject_info() []model.Task { //получение пользователя из бд
+	var u model.Task
+	var u_mas []model.Task
+	res, err := Db.Query("SELECT tasks.name,tasks.start_date,tasks.end_date, projects.colour FROM tasks INNER JOIN projects ON tasks.project_id = projects.id ;")
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&u.Title, &u.Start, &u.End, &u.BackgroundColor)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
+		u_mas = append(u_mas, u)
+	}
+	fmt.Println(u_mas)
+	fmt.Println(u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor) //пример как вырывать параметры из запроса
+	return u_mas
 
 }

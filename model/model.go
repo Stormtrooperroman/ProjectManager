@@ -9,6 +9,7 @@ type User_DB struct {
 	Id    int    `json:"id"`
 	FName string `json:"f_name"`
 	LName string `json:"l_name"`
+	Admin int    `json:"admin"`
 }
 
 type Projects struct {
@@ -31,4 +32,9 @@ type Task struct {
 
 type Person struct {
 	Name string
+}
+type Is_login struct {
+	Login bool
+	Admin bool
+	Id    int
 }
