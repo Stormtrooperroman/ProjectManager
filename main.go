@@ -41,6 +41,7 @@ func main() {
 	router.GET("/edit/", create_project)
 	router.GET("/project/:id/task/", create_task)
 	router.GET("/new_person", create_login)
+	router.GET("/person_tasks", person_tasks)
 
 	// api
 	router.GET("/api/login", registration)
@@ -125,6 +126,7 @@ type Task struct {
 	End             string `json:"end"`
 	Text            string
 	BackgroundColor string `json:"backgroundColor"`
+	Project_name string
 }
 
 func get_tasks(c *gin.Context) {
@@ -303,4 +305,30 @@ func create_login(c *gin.Context) {
 
 func new_login(c *gin.Context) {
 	// Сохраняем данные. 
+}
+
+func person_tasks(c *gin.Context) {
+	tasks := []Task{
+		Task{
+			Url:             "../project/1/task/1",
+			Title:           "event1",
+			Start:           "2022-12-01",
+			End:             "9999-12-17",
+			Text:            "Hello world",
+			BackgroundColor: "#F00",
+			Project_name: "HAHAHAHAHSAAH",
+		},
+		Task{
+			Url:             "../project/1/task/2",
+			Title:           "event2",
+			Start:           "2022-12-15",
+			End:             "2022-12-17",
+			Text:            "Haahahaahahahahahahaha",
+			BackgroundColor: "#F00",
+			Project_name: "Hello world",
+		},
+	} 
+	c.HTML(200, "all_tasks.html", gin.H{
+		"tasks": tasks,
+	})
 }
