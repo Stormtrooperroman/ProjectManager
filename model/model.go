@@ -21,10 +21,7 @@ type Projects struct {
 }
 
 type Task struct {
-<<<<<<< HEAD
 	Id              string `json:"id"`
-=======
->>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 	Url             string `json:"url"`
 	Title           string `json:"title"`
 	Start           string `json:"start"`
@@ -32,10 +29,7 @@ type Task struct {
 	Text            string
 	BackgroundColor string `json:"backgroundColor"`
 	Project_name    string
-<<<<<<< HEAD
 	Project_id      string `json:"project_Id"`
-=======
->>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 }
 
 type Person struct {

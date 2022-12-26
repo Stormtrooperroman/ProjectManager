@@ -38,22 +38,14 @@ func ExtractData(db *sqlx.DB, login string, password string) model.Is_login { //
 		Admin: false,
 	}
 	if u.LName != "" && u.FName != "" {
-<<<<<<< HEAD
 		//privat_info.Login = true
-=======
-		privat_info.Login = true
->>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 		result.Login = true
 		if u.Admin == 1 {
 			result.Admin = true
 			result.Id = u.Id
 		}
 	} else {
-<<<<<<< HEAD
 		//privat_info.Login = false
-=======
-		privat_info.Login = false
->>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 	}
 
 	return result
@@ -101,26 +93,15 @@ func ExtractData_Projects() []model.Projects {
 
 }
 
-<<<<<<< HEAD
 func ExtractDataProject_info(id string) []model.Task { //получение пользователя из бд
 	var u model.Task
 	var u_mas []model.Task
 	res, err := Db.Query("SELECT tasks.id ,tasks.name,tasks.start_date,tasks.end_date, projects.colour FROM tasks  INNER JOIN projects ON tasks.project_id = projects.id WHERE tasks.project_id = ? ;", id)
-=======
-func ExtractDataProject_info() []model.Task { //получение пользователя из бд
-	var u model.Task
-	var u_mas []model.Task
-	res, err := Db.Query("SELECT tasks.name,tasks.start_date,tasks.end_date, projects.colour FROM tasks INNER JOIN projects ON tasks.project_id = projects.id ;")
->>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-<<<<<<< HEAD
 		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.BackgroundColor)
-=======
-		err = res.Scan(&u.Title, &u.Start, &u.End, &u.BackgroundColor)
->>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 		if err != nil {
 			panic(err)
 		}
@@ -128,7 +109,6 @@ func ExtractDataProject_info() []model.Task { //получение пользо�
 		u_mas = append(u_mas, u)
 	}
 	fmt.Println(u_mas)
-<<<<<<< HEAD
 	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor) //пример как вырывать параметры из запроса
 	return u_mas
 
@@ -247,9 +227,6 @@ func ExtractDataProject_and_Task(id string) []model.Task { //получение 
 	}
 	fmt.Println(u_mas)
 	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor) //пример как вырывать параметры из запроса
-=======
-	fmt.Println(u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor) //пример как вырывать параметры из запроса
->>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 	return u_mas
 
 }

@@ -3,10 +3,6 @@ package main
 import (
 	"awesomeProject4/datamysql"
 	"awesomeProject4/pages"
-<<<<<<< HEAD
-=======
-
->>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
