@@ -16,9 +16,9 @@ func Project_page(c *gin.Context) {
 		projectsData := []model.Projects{
 			{Title: "Hello world", Text: "1231", Id: 1},
 			{Title: "Some Body", Text: "0933222222", Id: 2},
-			{Title: "HAHAHAHAHA", Text: "HAHAHAHAHAH", Id: 3},
-			{Title: "HAHAHAHAHA", Text: "HAHAHAHAHAH", Id: 4},
-			{Title: "HAHAHAHAHA", Text: "HAHAHAHAHAH", Id: 4},
+			{Title: "Master Project", Text: "Roman Lider Molodec❤️", Id: 3},
+			{Title: "Slave Project", Text: "From_Sib-Coder_with_Love❤️", Id: 4},
+			{Title: "NE Project", Text: "Ksusha Ymnicha❤️", Id: 4},
 		}
 		c.HTML(200, "projects.html", gin.H{
 			"projects": projectsData,
@@ -96,9 +96,18 @@ func Login_page(c *gin.Context) {
 func Registration(c *gin.Context) {
 	var user *model.Registr
 	decode := json.NewDecoder(c.Request.Body).Decode(&user)
-	fmt.Println(user)                       // структура с json внутри
-	fmt.Println(user.Login, " ", user.Pass) //провера состояния в постмане
+	//fmt.Println(user)                       // структура с json внутри
+	fmt.Println(user.Login, " ", user.Pass, " ", user.Id) //провера состояния в постмане
 	datamysql.ExtractData(datamysql.Db, string(user.Login), string(user.Pass))
+
+	if privat_info.Admin == true { //отправка подтверждения логина
+		c.JSON(http.StatusOK, gin.H{
+			"login": "true",
+		})
+	}
+	if privat_info.Admin == true {
+		c.SetCookie("user", string(user.Id), 3600, "/", "localhost", true, true)
+	}
 	fmt.Println(privat_info.Admin)
 	if decode != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -209,6 +218,10 @@ func Get_tasks(c *gin.Context) {
 	return
 
 }
+func Person_tasks(c *gin.Context) {
+	c.HTML(200, "all_tasks.html", nil)
+}
+
 func Update_task(c *gin.Context) {
 	// update data base AHAHAHHAHAHAA
 }
@@ -219,5 +232,3 @@ func Add_project(c *gin.Context) {
 func Update_project(c *gin.Context) {
 	// update data base AHAHAHHAHAHAA
 }
-
-////////////////////////////////////модели от Ромы///////////////////////////////////////////////////////////////////////

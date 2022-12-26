@@ -22,12 +22,12 @@ func Conect() {
 
 func ExtractData(db *sqlx.DB, login string, password string) { //получение пользователя из бд
 	var u model.User_DB
-	res, err := db.Query("SELECT `first_name`,`last_name` FROM `employees` WHERE `login`= ? AND `password` = ?;", login, password)
+	res, err := db.Query("SELECT `first_name`,`last_name`,`id` FROM `employees` WHERE `login`= ? AND `password` = ?;", login, password)
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&u.FName, &u.LName)
+		err = res.Scan(&u.FName, &u.LName, &u.Id)
 		if err != nil {
 			panic(err)
 		}
@@ -38,8 +38,7 @@ func ExtractData(db *sqlx.DB, login string, password string) { //получен�
 	} else {
 		privat_info.Admin = false
 	}
-
-	fmt.Println(u.LName, " ", u.FName) //пример как вырывать параметры из запроса
+	//fmt.Println(u.LName, " ", u.FName) //пример как вырывать параметры из запроса
 
 }
 

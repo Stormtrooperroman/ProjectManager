@@ -13,8 +13,6 @@ var router *gin.Engine
 func main() {
 	//подключение к БД
 	datamysql.Conect()
-	//datamysql.ExtractData(datamysql.Db, "sib_coder")
-	//datamysql.DelData(db)
 
 	router := gin.Default()
 
@@ -31,6 +29,7 @@ func main() {
 	router.GET("/edit/:id/", pages.Edit_info)
 	router.GET("/edit/", pages.Create_project)
 	router.GET("/project/:id/task/", pages.Create_task)
+	router.GET("/person_tasks", pages.Person_tasks)
 	//api
 	router.POST("/api/login", pages.Registration) // работает всё ок
 	router.GET("/api/tasks", pages.Get_all_calendar)
@@ -38,7 +37,6 @@ func main() {
 	router.POST("/api/project/:id/task/:task_id", pages.Update_task)
 	router.POST("/api/project/", pages.Add_project)
 	router.POST("/api/project/:id", pages.Update_project)
-	//////////////////////////////Роуты Ромы/////////////////////////////////////////////////////
 
 	router.Run(":3001")
 

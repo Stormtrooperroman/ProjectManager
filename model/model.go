@@ -1,12 +1,12 @@
 package model
 
-var U = Registr{"sib_coder", "210104"}
-
 type Registr struct {
+	Id    int
 	Login string
 	Pass  string
 }
 type User_DB struct {
+	Id    int    `json:"id"`
 	FName string `json:"f_name"`
 	LName string `json:"l_name"`
 }
@@ -26,6 +26,7 @@ type Task struct {
 	End             string `json:"end"`
 	Text            string
 	BackgroundColor string `json:"backgroundColor"`
+	Project_name    string
 }
 
 type Person struct {
