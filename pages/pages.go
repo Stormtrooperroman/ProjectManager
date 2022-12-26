@@ -3,6 +3,7 @@ package pages
 import (
 	"awesomeProject4/datamysql"
 	"awesomeProject4/model"
+	"awesomeProject4/privat_info"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -32,6 +33,7 @@ func Project_page(c *gin.Context) {
 func Project_info(c *gin.Context) {
 	_, err := c.Cookie("user")
 	if err == nil {
+<<<<<<< HEAD
 		id := c.Param("id")
 		tasks := datamysql.ExtractDataProject_info(id) //добавил для отрисовки
 		project_info := datamysql.ExtractDataProject(id)
@@ -48,6 +50,43 @@ func Project_info(c *gin.Context) {
 			"id":            id,
 		}
 
+=======
+		tasks := datamysql.ExtractDataProject_info() //добавил для отрисовки
+		//tasks := []model.Task{
+		//	model.Task{
+		//		Url:             "../project/1/task/1",
+		//		Title:           "event1",
+		//		Start:           "2022-12-01",
+		//		End:             "9999-12-17",
+		//		Text:            "Hello world",
+		//		BackgroundColor: "#F00",
+		//	},
+		//	model.Task{
+		//		Url:             "../project/1/task/2",
+		//		Title:           "event2",
+		//		Start:           "2022-12-15",
+		//		End:             "2022-12-17",
+		//		Text:            "Haahahaahahahahahahaha",
+		//		BackgroundColor: "#F00",
+		//	},
+		//}
+		//
+		//project_title := "Hello world"
+		//project_start := "22-02-2022"
+		//project_end := "22-02-2022"
+		//project_desc := "Lorem Ipsum hahahahahahahahhaa"
+
+		//projectsData := datamysql.ExtractData_Projects()
+		//returningResult := gin.H{
+		//	"tasks":         tasks,
+		//	"project_title": project_title,
+		//	"project_start": project_start,
+		//	"project_end":   project_end,
+		//	"project_desc":  project_desc,
+		//	"id":            id,
+		//}
+		id := c.Param("id")
+>>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 		admin, _ := c.Cookie("admin")
 
 		if admin == "true" {
@@ -121,6 +160,10 @@ func Registration(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, returningResult)
 	}
+<<<<<<< HEAD
+=======
+	fmt.Println(privat_info.Login)
+>>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 	if decode != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"response": decode.Error(),
@@ -132,6 +175,7 @@ func Registration(c *gin.Context) {
 func Task_info(c *gin.Context) {
 	_, err := c.Cookie("user")
 	if err == nil {
+<<<<<<< HEAD
 		taskId := c.Param("task_id")
 		all_persons := datamysql.ExtractDataUsers()
 		task := datamysql.ExtractDataTask(taskId)
@@ -142,6 +186,36 @@ func Task_info(c *gin.Context) {
 			"startDate":   task.Start,
 			"startEnd":    task.End,
 			"text":        task.Text,
+=======
+
+		//persons := []model.Person{
+		//	model.Person{
+		//		Name: "Синицын Даниил",
+		//	},
+		//	model.Person{
+		//		Name: "Иванов Иван Иванович",
+		//	},
+		//}
+		//all_persons := []model.Person{
+		//	model.Person{
+		//		Name: "Синицын Даниил",
+		//	},
+		//	model.Person{
+		//		Name: "Иванов Иван Иванович",
+		//	},
+		//	model.Person{
+		//		Name: "HAHAHAHAHAHAHHAHA",
+		//	},
+		//}
+
+		taskId := c.Param("task_id")
+
+		returningResult := gin.H{
+			"title":       "event1",
+			"startDate":   "22-02-2022",
+			"startEnd":    "22-12-2022",
+			"text":        "AHAHHAHAHAHAHAHHAHAHAHAHAHAH",
+>>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 			"person":      persons,
 			"all_persons": all_persons,
 			"id":          taskId,
@@ -162,6 +236,7 @@ func Edit_info(c *gin.Context) {
 	_, err := c.Cookie("user")
 	if err == nil {
 		id := c.Param("id")
+<<<<<<< HEAD
 		admin, _ := c.Cookie("admin")
 		project_info := datamysql.ExtractDataProject(id)
 		returningResult := gin.H{
@@ -169,6 +244,15 @@ func Edit_info(c *gin.Context) {
 			"text":  project_info.Text,
 			"id":    id,
 			"color": project_info.BackgroundColor,
+=======
+		//project_title := "Hello world"
+		//project_desc := "Lorem Ipsum hahahahahahahahhaa"
+		returningResult := gin.H{
+			"title": project_title,
+			"text":  project_desc,
+			"id":    id,
+			"color": "#FFA000",
+>>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 		}
 		if admin == "true" {
 			returningResult["admin"] = true
@@ -195,7 +279,22 @@ func Create_project(c *gin.Context) {
 func Create_task(c *gin.Context) {
 	_, err := c.Cookie("user")
 	if err == nil {
+<<<<<<< HEAD
 		all_persons := datamysql.ExtractDataUsers()
+=======
+
+		//all_persons := []model.Person{
+		//	model.Person{
+		//		Name: "Синицын Даниил",
+		//	},
+		//	model.Person{
+		//		Name: "Иванов Иван Иванович",
+		//	},
+		//	model.Person{
+		//		Name: "HAHAHAHAHAHAHHAHA",
+		//	},
+		//}
+>>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 
 		id := c.Param("id")
 		returningResult := gin.H{
@@ -212,6 +311,7 @@ func Create_task(c *gin.Context) {
 	}
 }
 func Get_all_calendar(c *gin.Context) {
+<<<<<<< HEAD
 	tasks := datamysql.ExtractDataProject_info_ALL()
 	for i := 0; i < len(tasks); i++ {
 		tasks[i].Url = "../project/" + string(tasks[i].Project_id) + "/task/" + string(tasks[i].Id)
@@ -227,15 +327,59 @@ func Get_tasks(c *gin.Context) {
 		tasks[i].Url = "../project/" + string(id) + "/task/" + string(tasks[i].Id)
 	}
 
+=======
+
+	tasks := []model.Task{
+		model.Task{
+			Url:             "../project/1/task/1",
+			Title:           "event1",
+			Start:           "2022-12-01",
+			End:             "9999-12-17",
+			BackgroundColor: "#F00",
+		},
+		model.Task{
+			Url:             "../project/2/task/1",
+			Title:           "event2",
+			Start:           "2022-12-15",
+			End:             "2022-12-17",
+			BackgroundColor: "#0F0",
+		},
+	}
+	c.JSON(http.StatusOK, tasks)
+}
+func Get_tasks(c *gin.Context) {
+	tasks := []model.Task{
+		model.Task{
+			Url:             "../project/1/task/1",
+			Title:           "event1",
+			Start:           "2022-12-01",
+			End:             "9999-12-17",
+			BackgroundColor: "#F00",
+		},
+		model.Task{
+			Url:             "../project/1/task/2",
+			Title:           "event2",
+			Start:           "2022-12-15",
+			End:             "2022-12-17",
+			BackgroundColor: "#F00",
+		},
+	}
+>>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 	c.JSON(http.StatusOK, tasks)
 	return
 
 }
 func Person_tasks(c *gin.Context) {
+<<<<<<< HEAD
 	user, err := c.Cookie("user")
 	if err == nil {
 		task := datamysql.ExtractDataProject_and_Task(user)
 		returningResult := gin.H{"tasks": task}
+=======
+	_, err := c.Cookie("user")
+	if err == nil {
+		returningResult := gin.H{}
+>>>>>>> 252fc5b3a458d503382c86fff439b9a778afb9f6
 		admin, _ := c.Cookie("admin")
 		if admin == "true" {
 			returningResult["admin"] = true
