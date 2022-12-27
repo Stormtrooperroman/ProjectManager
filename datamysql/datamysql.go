@@ -1,8 +1,8 @@
 package datamysql
 
 import (
-	"awesomeProject4/model"
-	"awesomeProject4/privat_info"
+	"awesomeroject4/model"
+	"awesomeroject4/privat_info"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"

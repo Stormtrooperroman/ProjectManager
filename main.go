@@ -1,8 +1,8 @@
 package main
 
 import (
-	"awesomeProject4/datamysql"
-	"awesomeProject4/pages"
+	"awesomeroject4/datamysql"
+	"awesomeroject4/pages"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )

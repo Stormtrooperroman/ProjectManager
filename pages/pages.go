@@ -1,8 +1,8 @@
 package pages
 
 import (
-	"awesomeProject4/datamysql"
-	"awesomeProject4/model"
+	"awesomeroject4/datamysql"
+	"awesomeroject4/model"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
