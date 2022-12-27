@@ -42,10 +42,7 @@ type Task struct {
 	BackgroundColor string `json:"backgroundColor"`
 	Project_name    string
 	Project_id      string `json:"project_Id"`
-<<<<<<< HEAD
 	Person_Mas      []string
-=======
->>>>>>> 375ffcc9aa3f9eab577ce2b6cf01e4fdf089de40
 }
 
 type Person struct {
