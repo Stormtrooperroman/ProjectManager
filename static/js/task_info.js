@@ -44,10 +44,61 @@ $(document).on("click", ".delete", function(){
   });
 
 $("#update").click(function (e) {
+
+
+    $('#title').removeClass("is-invalid");
+    $('#startDate').removeClass("is-invalid");
+    $('#endDate').removeClass("is-invalid");
+    $('#description').removeClass("is-invalid");
+
+
+    $('#title').addClass("is-valid");
+    $('#startDate').addClass("is-valid");
+    $('#endDate').addClass("is-valid");
+    $('#description').addClass("is-valid");
+
+
     let title_name = $("#title").val();
     let start_date_val = $("#startDate").val();
     let end_date_val = $("#endDate").val();
     let description_val = $("#description").val();
+
+    const re = new  RegExp('(^\\s+$|^$)')
+    is_valid = true;
+    if (re.test(title_name)) {
+        is_valid = false
+        $('#title').removeClass("is-valid");
+        $("#title").addClass("is-invalid")
+        // show error
+    }
+
+    if (re.test(start_date_val)) {
+        is_valid = false
+        $('#startDate').removeClass("is-valid");
+        $("#startDate").addClass("is-invalid")
+        // show error
+    }
+    if (re.test(end_date_val)) {
+        is_valid = false
+        $('#endDate').removeClass("is-valid");
+        $("#endDate").addClass("is-invalid")
+        // show error
+    }
+
+    if (re.test(description_val)) {
+        is_valid = false
+        $('#description').removeClass("is-valid");
+        $("#description").addClass("is-invalid")
+        // show error
+    }
+
+    if(!is_valid){
+        return
+    }
+
+
+
+
     let person_val = []
     let persons_data = [].slice.call(document.querySelectorAll('.toast-body'))
     console.log(persons_data)

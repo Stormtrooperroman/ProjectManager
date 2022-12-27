@@ -1,8 +1,8 @@
 package datamysql
 
 import (
-	"awesomeroject4/model"
-	"awesomeroject4/privat_info"
+	"awesomeProject4/model"
+	"awesomeProject4/privat_info"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -37,12 +37,13 @@ func ExtractData(db *sqlx.DB, login string, password string) model.Is_login { //
 		Login: false,
 		Admin: false,
 	}
+	fmt.Println(u.Id)
 	if u.LName != "" && u.FName != "" {
 		//privat_info.Login = true
 		result.Login = true
+		result.Id = u.Id
 		if u.Admin == 1 {
 			result.Admin = true
-			result.Id = u.Id
 		}
 	} else {
 		//privat_info.Login = false
@@ -96,12 +97,12 @@ func ExtractData_Projects() []model.Projects {
 func ExtractDataProject_info(id string) []model.Task { //получение пользователя из бд
 	var u model.Task
 	var u_mas []model.Task
-	res, err := Db.Query("SELECT tasks.id ,tasks.name,tasks.start_date,tasks.end_date, projects.colour FROM tasks  INNER JOIN projects ON tasks.project_id = projects.id WHERE tasks.project_id = ? ;", id)
+	res, err := Db.Query("SELECT tasks.id, tasks.name, tasks.start_date, tasks.end_date, projects.colour, projects.text_colour FROM tasks INNER JOIN projects ON tasks.project_id = projects.id WHERE tasks.project_id = ? ;", id)
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.BackgroundColor)
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.BackgroundColor, &u.TextColor)
 		if err != nil {
 			panic(err)
 		}
@@ -109,26 +110,26 @@ func ExtractDataProject_info(id string) []model.Task { //получение по
 		u_mas = append(u_mas, u)
 	}
 	fmt.Println(u_mas)
-	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor) //пример как вырывать параметры из запроса
+	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor, " ", u.TextColor) //пример как вырывать параметры из запроса
 	return u_mas
 
 }
 func ExtractDataProject(id string) model.Task { //получение пользователя из бд
 	var u model.Task
 
-	res, err := Db.Query("SELECT  id ,name, start_date, end_date,description, colour FROM projects WHERE id = ? ;", id)
+	res, err := Db.Query("SELECT  id ,name, start_date, end_date,description, colour, text_colour FROM projects WHERE id = ? ;", id)
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text, &u.BackgroundColor)
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text, &u.BackgroundColor, &u.TextColor)
 		if err != nil {
 			panic(err)
 		}
 		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
 	}
 	fmt.Println(u)
-	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ") //пример как вырывать параметры из запроса
+	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor, " ", u.TextColor) //пример как вырывать параметры из запроса
 	return u
 
 }
@@ -193,12 +194,12 @@ func ExtractDataUsers_Task(id string) []model.User_DB { //получение п�
 func ExtractDataProject_info_ALL() []model.Task { //получение пользователя из бд
 	var u model.Task
 	var u_mas []model.Task
-	res, err := Db.Query("SELECT tasks.id ,tasks.name,tasks.start_date,tasks.end_date, projects.colour, projects.id FROM tasks  INNER JOIN projects ON tasks.project_id = projects.id ;")
+	res, err := Db.Query("SELECT tasks.id ,tasks.name,tasks.start_date,tasks.end_date, projects.colour, projects.text_colour, projects.id FROM tasks  INNER JOIN projects ON tasks.project_id = projects.id ;")
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.BackgroundColor, &u.Project_id)
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.BackgroundColor, &u.TextColor, &u.Project_id)
 		if err != nil {
 			panic(err)
 		}
@@ -231,8 +232,8 @@ func ExtractDataProject_and_Task(id string) []model.Task { //получение 
 	return u_mas
 
 }
-func AddPerson(id string, login string, password string, first_name string, last_name string) {
-	result, err := Db.Exec("insert into employees (id,login, password, first_name,last_name, is_admin ) values (?,?, ?, ?,?, 0)", id, login, password, first_name, last_name)
+func AddPerson(login string, password string, first_name string, last_name string) {
+	result, err := Db.Exec("insert into employees (login, password, first_name,last_name, is_admin ) values (?, ?, ?,?, 0)", login, password, first_name, last_name)
 	if err != nil {
 		panic(err)
 	}
@@ -240,16 +241,16 @@ func AddPerson(id string, login string, password string, first_name string, last
 	fmt.Println(result.RowsAffected()) // количество затронутых строк
 }
 
-func AddProject(id string, name string, description string, colour string) {
-	result, err := Db.Exec("insert into projects (id,name, description, colour , start_date, end_date) values (?,?, ?, ?, sysdate(), sysdate())", id, name, description, colour)
+func AddProject(name string, description string, colour string, text_colour string) {
+	result, err := Db.Exec("insert into projects (name, description, colour , start_date, end_date, text_colour) values (?, ?, ?, sysdate(), sysdate(), ?)", name, description, colour, text_colour)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(result.LastInsertId()) // id добавленного объекта
 	fmt.Println(result.RowsAffected()) // количество затронутых строк
 }
-func AddTask(id string, name string, start_date string, end_date string, description string, id_project string, person []string) {
-	result, err := Db.Exec("insert into tasks (id,name, start_date, end_date, description, project_id) values (?,?, STR_TO_DATE(?, '%Y-%m-%d'), STR_TO_DATE(?, '%Y-%m-%d'), ?, ?)", id, name, start_date, end_date, description, id_project)
+func AddTask(name string, start_date string, end_date string, description string, id_project string, person []string) {
+	result, err := Db.Exec("insert into tasks (name, start_date, end_date, description, project_id) values (?, STR_TO_DATE(?, '%Y-%m-%d'), STR_TO_DATE(?, '%Y-%m-%d'), ?, ?)", name, start_date, end_date, description, id_project)
 	if err != nil {
 		panic(err)
 	}
@@ -279,8 +280,8 @@ func AddTask(id string, name string, start_date string, end_date string, descrip
 	}
 
 }
-func UpdateProject(id string, name string, description string, colour string) {
-	result, err := Db.Exec("update  projects set name = ?, description = ?, colour = ? WHERE id = ?", name, description, colour, id)
+func UpdateProject(id string, name string, description string, colour string, text_colour string) {
+	result, err := Db.Exec("update  projects set name = ?, description = ?, colour = ?, text_colour = ? WHERE id = ?", name, description, colour, text_colour, id)
 	if err != nil {
 		panic(err)
 	}

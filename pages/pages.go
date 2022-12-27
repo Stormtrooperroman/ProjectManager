@@ -1,8 +1,8 @@
 package pages
 
 import (
-	"awesomeroject4/datamysql"
-	"awesomeroject4/model"
+	"awesomeProject4/datamysql"
+	"awesomeProject4/model"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -107,10 +107,9 @@ func Login_page(c *gin.Context) {
 func Registration(c *gin.Context) {
 	var user *model.Registr
 	decode := json.NewDecoder(c.Request.Body).Decode(&user)
-	//fmt.Println(user)                       // структура с json внутри
-	fmt.Println(user.Login, " ", user.Pass, " ", user.Id) //провера состояния в постмане
 	is_logining := datamysql.ExtractData(datamysql.Db, string(user.Login), string(user.Pass))
 	user_id := strconv.Itoa(is_logining.Id)
+
 	if is_logining.Login == true { //отправка подтверждения логина
 		c.SetCookie("user", user_id, 3600, "/", "localhost", false, false)
 		returningResult := gin.H{
@@ -166,10 +165,11 @@ func Edit_info(c *gin.Context) {
 		admin, _ := c.Cookie("admin")
 		project_info := datamysql.ExtractDataProject(id)
 		returningResult := gin.H{
-			"title": project_info.Title,
-			"text":  project_info.Text,
-			"id":    id,
-			"color": project_info.BackgroundColor,
+			"title":      project_info.Title,
+			"text":       project_info.Text,
+			"id":         id,
+			"color":      project_info.BackgroundColor,
+			"text_color": project_info.TextColor,
 		}
 		if admin == "true" {
 			returningResult["admin"] = true
@@ -236,6 +236,9 @@ func Person_tasks(c *gin.Context) {
 	user, err := c.Cookie("user")
 	if err == nil {
 		tasks := datamysql.ExtractDataProject_and_Task(user)
+		for i := 0; i < len(tasks); i++ {
+			tasks[i].Url = "../project/" + string(tasks[i].Project_id) + "/task/" + string(tasks[i].Id)
+		}
 		returningResult := gin.H{"tasks": tasks}
 		admin, _ := c.Cookie("admin")
 		if admin == "true" {
@@ -266,14 +269,13 @@ func NewPerson(c *gin.Context) {
 func CreateUser(c *gin.Context) {
 	var user *model.CreateUser
 	decode := json.NewDecoder(c.Request.Body).Decode(&user)
-	//fmt.Println(user)                       // структура с json внутри
 	fmt.Println(user.FName, " ", user.LName, " ", user.Login, " ", user.Password)
 	if decode != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"response": decode.Error(),
 		})
 	}
-	datamysql.AddPerson("9", user.Login, user.Password, user.FName, user.LName)
+	datamysql.AddPerson(user.Login, user.Password, user.FName, user.LName)
 }
 func CreateProject(c *gin.Context) {
 	var project *model.CreateProject
@@ -284,7 +286,7 @@ func CreateProject(c *gin.Context) {
 			"response": decode.Error(),
 		})
 	}
-	datamysql.AddProject("3", project.Name, project.Description, project.Colour)
+	datamysql.AddProject(project.Name, project.Description, project.Colour, project.TextColor)
 }
 
 func CreateTask(c *gin.Context) {
@@ -297,7 +299,7 @@ func CreateTask(c *gin.Context) {
 			"response": decode.Error(),
 		})
 	}
-	datamysql.AddTask("8", task.Title, task.Start, task.End, task.Text, id, task.Person_Mas)
+	datamysql.AddTask(task.Title, task.Start, task.End, task.Text, id, task.Person_Mas)
 }
 
 func Update_project(c *gin.Context) {
@@ -311,7 +313,7 @@ func Update_project(c *gin.Context) {
 			"response": decode.Error(),
 		})
 	}
-	datamysql.UpdateProject(id, project.Name, project.Description, project.Colour)
+	datamysql.UpdateProject(id, project.Name, project.Description, project.Colour, project.TextColor)
 }
 
 func Update_task(c *gin.Context) {

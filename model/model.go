@@ -16,6 +16,7 @@ type CreateProject struct {
 	Name        string
 	Description string
 	Colour      string
+	TextColor   string
 }
 type User_DB struct {
 	Id    int    `json:"id"`
@@ -40,6 +41,7 @@ type Task struct {
 	End             string `json:"end"`
 	Text            string
 	BackgroundColor string `json:"backgroundColor"`
+	TextColor       string `json:"textColor"`
 	Project_name    string
 	Project_id      string `json:"project_Id"`
 	Person_Mas      []string
