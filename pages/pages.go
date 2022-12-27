@@ -141,7 +141,11 @@ func Task_info(c *gin.Context) {
 		returningResult := gin.H{
 			"title":       task.Title,
 			"startDate":   task.Start,
+<<<<<<< HEAD
 			"endDate":     task.End,
+=======
+			"startEnd":    task.End,
+>>>>>>> 375ffcc9aa3f9eab577ce2b6cf01e4fdf089de40
 			"text":        task.Text,
 			"person":      persons,
 			"all_persons": all_persons,
@@ -235,8 +239,13 @@ func Get_tasks(c *gin.Context) {
 func Person_tasks(c *gin.Context) {
 	user, err := c.Cookie("user")
 	if err == nil {
+<<<<<<< HEAD
 		tasks := datamysql.ExtractDataProject_and_Task(user)
 		returningResult := gin.H{"tasks": tasks}
+=======
+		task := datamysql.ExtractDataProject_and_Task(user)
+		returningResult := gin.H{"tasks": task}
+>>>>>>> 375ffcc9aa3f9eab577ce2b6cf01e4fdf089de40
 		admin, _ := c.Cookie("admin")
 		if admin == "true" {
 			returningResult["admin"] = true

@@ -110,6 +110,126 @@ func ExtractDataProject_info(id string) []model.Task { //получение по
 	}
 	fmt.Println(u_mas)
 	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor) //пример как вырывать параметры из запроса
+<<<<<<< HEAD
+=======
+	return u_mas
+
+}
+func ExtractDataProject(id string) model.Task { //получение пользователя из бд
+	var u model.Task
+
+	res, err := Db.Query("SELECT  id ,name, start_date, end_date,description, colour FROM projects WHERE id = ? ;", id)
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text, &u.BackgroundColor)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
+	}
+	fmt.Println(u)
+	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ") //пример как вырывать параметры из запроса
+	return u
+
+}
+func ExtractDataTask(id string) model.Task { //получение пользователя из бд
+	var u model.Task
+
+	res, err := Db.Query("SELECT  id ,name, start_date, end_date,description FROM tasks WHERE id = ? ;", id)
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text)
+		if err != nil {
+			panic(err)
+		}
+		//баг с Text надо проверять значение столбца
+		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
+	}
+	fmt.Println(u)
+	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ") //пример как вырывать параметры из запроса
+	return u
+
+}
+func ExtractDataUsers() []model.User_DB { //получение пользователя из бд
+	var u model.User_DB
+	var users []model.User_DB
+	res, err := Db.Query("SELECT `first_name`,`last_name` FROM `employees`;")
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&u.FName, &u.LName)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
+		users = append(users, u)
+	}
+	fmt.Println(users)
+	fmt.Println(u.LName, " ", u.FName) //пример как вырывать параметры из запроса
+	return users
+}
+func ExtractDataUsers_Task(id string) []model.User_DB { //получение пользователя из бд
+	var u model.User_DB
+	var users []model.User_DB
+	res, err := Db.Query("SELECT `first_name`,`last_name`, `id` FROM `employees` where id =(select emp_id from task_for_emp where task_id = ?);", id)
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&u.FName, &u.LName, &u.Id)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
+		users = append(users, u)
+	}
+	fmt.Println(users)
+	fmt.Println(u.LName, " ", u.FName) //пример как вырывать параметры из запроса
+	return users
+}
+func ExtractDataProject_info_ALL() []model.Task { //получение пользователя из бд
+	var u model.Task
+	var u_mas []model.Task
+	res, err := Db.Query("SELECT tasks.id ,tasks.name,tasks.start_date,tasks.end_date, projects.colour, projects.id FROM tasks  INNER JOIN projects ON tasks.project_id = projects.id ;")
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.BackgroundColor, &u.Project_id)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
+		u_mas = append(u_mas, u)
+	}
+	fmt.Println(u_mas)
+	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor) //пример как вырывать параметры из запроса
+	return u_mas
+
+}
+func ExtractDataProject_and_Task(id string) []model.Task { //получение пользователя из бд
+	var u model.Task
+	var u_mas []model.Task
+	res, err := Db.Query("SELECT tasks.id ,tasks.name,tasks.start_date,tasks.end_date, projects.colour,projects.name,projects.id  FROM tasks  INNER JOIN projects ON tasks.project_id = projects.id WHERE tasks.id = (select task_id from task_for_emp where emp_id =?) ;", id)
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.BackgroundColor, &u.Project_name, &u.Project_id)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
+		u_mas = append(u_mas, u)
+	}
+	fmt.Println(u_mas)
+	fmt.Println(u.Id, " ", u.Title, " ", u.Start, " ", u.End, " ", u.BackgroundColor) //пример как вырывать параметры из запроса
+>>>>>>> 375ffcc9aa3f9eab577ce2b6cf01e4fdf089de40
 	return u_mas
 
 }
