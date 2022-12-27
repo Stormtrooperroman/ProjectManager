@@ -5,9 +5,9 @@ $("#update").click(function (e) {
     
     console.log(color_val)
     let send_data = JSON.stringify({
-        title: title_name,
+        name: title_name,
         description: description_val,
-        color: color_val
+        colour: color_val
     })
     let page_url = window.location.href.split('/')
     let project_id = page_url[page_url.length - 2]

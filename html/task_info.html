@@ -44,7 +44,7 @@
                     </div>
                     {{ end }}
                     <div class="d-flex">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Выход</button>
+                        <button id="exit" class="btn btn-lg btn-primary btn-block" type="submit">Выход</button>
                     </div>
                 </div>
                 </div>
@@ -60,12 +60,12 @@
                 </div>
                 
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="startDate">Дата начала</span>
+                    <span class="input-group-text">Дата начала</span>
                     <input id="startDate" type="date" class="form-control" value="{{ .startDate }}" aria-describedby="startDate">
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="endDate">Дата оканчания</span>
+                    <span class="input-group-text">Дата оканчания</span>
                     <input id="endDate" type="date" class="form-control" value="{{ .endDate }}" aria-describedby="endDate">
                 </div>
 
@@ -82,7 +82,7 @@
                             <div class="toast align-items-center"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
                                 <div class="d-flex">
                                 <div class="toast-body">
-                                {{ .Name }}
+                                {{ .LName }} {{ .FName }} {{.Id}}
                                 </div>
                                 <button type="button" class="btn-close me-2 m-auto delete" data-bs-dismiss="toast" aria-label="Close"></button>
                                 </div>
@@ -112,7 +112,7 @@
                     <select id="new_person" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                         <option selected>Выберетите сотрудника</option>
                         {{range .all_persons}}
-                            <option>{{ .Name }}</option>
+                            <option>{{ .LName }} {{ .FName  }} {{.Id}}</option>
                         {{end}}
                     </select>
                 </div>
@@ -135,5 +135,6 @@
         <!-- JQuery script end -->
 
         <script src="../../../static/js/task_info.js"></script>
+        <script src="../../../static/js/logout.js"></script>
     </body>
 </html>

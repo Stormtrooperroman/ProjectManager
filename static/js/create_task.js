@@ -45,15 +45,21 @@ $("#update").click(function (e) {
     let persons_data = [].slice.call(document.querySelectorAll('.toast-body'))
     console.log(persons_data)
     persons_data.forEach(toaster => {
-        person_val.push(toaster["innerText"])
+        person_val.push(toaster["innerText"].split(" ")[2])
     });
+    if(start_date_val =='' ){
+        start_date_val = '2022-14-04'
+    }
+    if(end_date_val == '' ){
+        end_date_val = '2022-14-04'
+    }
     console.log(person_val)
     let send_data = JSON.stringify({
         title: title_name,
-        startDate: start_date_val,
-        endDate: end_date_val,
-        description: description_val,
-        person: person_val
+        start: start_date_val,
+        end: end_date_val,
+        text: description_val,
+        person_mas: person_val
     })
     let page_url = window.location.href.split('/')
     let project_id = page_url[page_url.length - 3]

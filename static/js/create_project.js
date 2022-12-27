@@ -5,9 +5,9 @@ $("#update").click(function (e) {
     
     console.log(color_val)
     let send_data = JSON.stringify({
-        title: title_name,
+        Name: title_name,
         description: description_val,
-        color: color_val
+        Colour: color_val
     })
     $.ajax({
         type: "POST",

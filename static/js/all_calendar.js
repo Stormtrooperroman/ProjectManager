@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
         success: function (response) {
             for (let i = 0; i < response.length; i++) {
                 arr[i] = response[i];
-                console.log(arr[i])
             }
         },
         

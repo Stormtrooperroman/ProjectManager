@@ -5,6 +5,18 @@ type Registr struct {
 	Login string
 	Pass  string
 }
+type CreateUser struct {
+	FName    string
+	LName    string
+	Login    string
+	Password string
+}
+type CreateProject struct {
+	Id          string
+	Name        string
+	Description string
+	Colour      string
+}
 type User_DB struct {
 	Id    int    `json:"id"`
 	FName string `json:"f_name"`
@@ -21,6 +33,7 @@ type Projects struct {
 }
 
 type Task struct {
+	Id              string `json:"id"`
 	Url             string `json:"url"`
 	Title           string `json:"title"`
 	Start           string `json:"start"`
@@ -28,6 +41,8 @@ type Task struct {
 	Text            string
 	BackgroundColor string `json:"backgroundColor"`
 	Project_name    string
+	Project_id      string `json:"project_Id"`
+	Person_Mas      []string
 }
 
 type Person struct {
