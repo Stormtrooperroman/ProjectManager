@@ -26,7 +26,7 @@ func Project_page(c *gin.Context) {
 		}
 		c.HTML(200, "projects.html", returningResult)
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 }
 
@@ -57,7 +57,7 @@ func Project_info(c *gin.Context) {
 
 		c.HTML(200, "project_info.html", returningResult)
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 }
 
@@ -73,7 +73,7 @@ func All_calendar(c *gin.Context) {
 		}
 		c.HTML(200, "all_calendar.html", returningResult)
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 
 }
@@ -96,7 +96,7 @@ func Project_calendar(c *gin.Context) {
 
 		c.HTML(200, "calendar.html", returningResult)
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 }
 
@@ -154,7 +154,7 @@ func Task_info(c *gin.Context) {
 
 		c.HTML(200, "task_info.html", returningResult)
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 }
 
@@ -176,7 +176,7 @@ func Edit_info(c *gin.Context) {
 		}
 		c.HTML(200, "edit_info.html", returningResult)
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 }
 func Create_project(c *gin.Context) {
@@ -190,7 +190,7 @@ func Create_project(c *gin.Context) {
 		}
 		c.HTML(200, "create_project.html", returningResult)
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 }
 func Create_task(c *gin.Context) {
@@ -209,7 +209,7 @@ func Create_task(c *gin.Context) {
 		}
 		c.HTML(200, "create_task.html", returningResult)
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 }
 func Get_all_calendar(c *gin.Context) {
@@ -246,7 +246,7 @@ func Person_tasks(c *gin.Context) {
 		}
 		c.HTML(200, "all_tasks.html", returningResult)
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 }
 
@@ -263,7 +263,7 @@ func NewPerson(c *gin.Context) {
 		}
 
 	} else {
-		c.HTML(200, "login.html", nil)
+		c.Redirect(301, "/login")
 	}
 }
 func CreateUser(c *gin.Context) {
