@@ -97,12 +97,12 @@ func ExtractData_Projects() []model.Projects {
 func ExtractDataProject_info(id string) []model.Task { //получение пользователя из бд
 	var u model.Task
 	var u_mas []model.Task
-	res, err := Db.Query("SELECT tasks.id, tasks.name, tasks.start_date, tasks.end_date, projects.colour, projects.text_colour FROM tasks INNER JOIN projects ON tasks.project_id = projects.id WHERE tasks.project_id = ? ;", id)
+	res, err := Db.Query("SELECT tasks.id, tasks.name, tasks.start_date, tasks.end_date, tasks.description, projects.colour, projects.text_colour FROM tasks INNER JOIN projects ON tasks.project_id = projects.id WHERE tasks.project_id = ? ;", id)
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.BackgroundColor, &u.TextColor)
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text, &u.BackgroundColor, &u.TextColor)
 		if err != nil {
 			panic(err)
 		}

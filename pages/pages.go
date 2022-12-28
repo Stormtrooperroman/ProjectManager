@@ -12,7 +12,6 @@ import (
 
 func Project_page(c *gin.Context) {
 	_, err := c.Cookie("user")
-
 	if err == nil {
 		// Get data from DB
 		projectsData := datamysql.ExtractData_Projects()
@@ -26,7 +25,8 @@ func Project_page(c *gin.Context) {
 		}
 		c.HTML(200, "projects.html", returningResult)
 	} else {
-		c.Redirect(301, "/login")
+
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
 
@@ -57,7 +57,7 @@ func Project_info(c *gin.Context) {
 
 		c.HTML(200, "project_info.html", returningResult)
 	} else {
-		c.Redirect(301, "/login")
+		c.Redirect(302, "/login")
 	}
 }
 
@@ -73,7 +73,7 @@ func All_calendar(c *gin.Context) {
 		}
 		c.HTML(200, "all_calendar.html", returningResult)
 	} else {
-		c.Redirect(301, "/login")
+		c.Redirect(302, "/login")
 	}
 
 }
@@ -96,7 +96,7 @@ func Project_calendar(c *gin.Context) {
 
 		c.HTML(200, "calendar.html", returningResult)
 	} else {
-		c.Redirect(301, "/login")
+		c.Redirect(302, "/login")
 	}
 }
 
@@ -111,13 +111,14 @@ func Registration(c *gin.Context) {
 	user_id := strconv.Itoa(is_logining.Id)
 
 	if is_logining.Login == true { //отправка подтверждения логина
-		c.SetCookie("user", user_id, 3600, "/", "localhost", false, false)
+		c.SetSameSite(http.SameSiteNoneMode)
+		c.SetCookie("user", user_id, 3600, "/", "localhost", true, false)
 		returningResult := gin.H{
 			"login": "true",
 		}
 		if is_logining.Admin {
 			returningResult["admin"] = true
-			c.SetCookie("admin", string("true"), 3600, "/", "localhost", false, false)
+			c.SetCookie("admin", string("true"), 3600, "/", "localhost", true, false)
 		}
 		c.JSON(http.StatusOK, returningResult)
 	}
@@ -154,7 +155,7 @@ func Task_info(c *gin.Context) {
 
 		c.HTML(200, "task_info.html", returningResult)
 	} else {
-		c.Redirect(301, "/login")
+		c.Redirect(302, "/login")
 	}
 }
 
@@ -176,7 +177,7 @@ func Edit_info(c *gin.Context) {
 		}
 		c.HTML(200, "edit_info.html", returningResult)
 	} else {
-		c.Redirect(301, "/login")
+		c.Redirect(302, "/login")
 	}
 }
 func Create_project(c *gin.Context) {
@@ -190,7 +191,7 @@ func Create_project(c *gin.Context) {
 		}
 		c.HTML(200, "create_project.html", returningResult)
 	} else {
-		c.Redirect(301, "/login")
+		c.Redirect(302, "/login")
 	}
 }
 func Create_task(c *gin.Context) {
@@ -209,7 +210,7 @@ func Create_task(c *gin.Context) {
 		}
 		c.HTML(200, "create_task.html", returningResult)
 	} else {
-		c.Redirect(301, "/login")
+		c.Redirect(302, "/login")
 	}
 }
 func Get_all_calendar(c *gin.Context) {
@@ -246,7 +247,7 @@ func Person_tasks(c *gin.Context) {
 		}
 		c.HTML(200, "all_tasks.html", returningResult)
 	} else {
-		c.Redirect(301, "/login")
+		c.Redirect(302, "/login")
 	}
 }
 
@@ -263,7 +264,7 @@ func NewPerson(c *gin.Context) {
 		}
 
 	} else {
-		c.Redirect(301, "/login")
+		c.Redirect(302, "/login")
 	}
 }
 func CreateUser(c *gin.Context) {

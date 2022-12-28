@@ -14,8 +14,13 @@ for(i = 0; i < toastList.length; i++) {
 
 $("#add").click(function (e) {
     let new_person = $("#new_person").val()
-    if (new_person != "Выберетите сотрудника") {
-        console.log(new_person);
+    let new_person_id = new_person.split(" ")[2]
+    let person_val = []
+    let persons_data = [].slice.call(document.querySelectorAll('.toast-body'))
+    persons_data.forEach(toaster => {
+        person_val.push(toaster["innerText"].split(" ")[2])
+    });
+    if (new_person != "Выберетите сотрудника" && !(person_val.includes(new_person_id))) {
         test = 
         `<div class="toast align-items-center"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
             <div class="d-flex">

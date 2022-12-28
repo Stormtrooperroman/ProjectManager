@@ -7,7 +7,13 @@ $("#persons").click(function (e) {
 
 $("#add").click(function (e) {
     let new_person = $("#new_person").val()
-    if (new_person != "Выберетите сотрудника") {
+    let new_person_id = new_person.split(" ")[2]
+    let person_val = []
+    let persons_data = [].slice.call(document.querySelectorAll('.toast-body'))
+    persons_data.forEach(toaster => {
+        person_val.push(toaster["innerText"].split(" ")[2])
+    });
+    if (new_person != "Выберетите сотрудника" && !(person_val.includes(new_person_id))) {
         console.log(new_person);
         test = 
         `<div class="toast align-items-center"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
@@ -39,18 +45,18 @@ $(document).on("click", ".delete", function(){
 $("#update").click(function (e) {
 
 
-    $('#taskName').removeClass("is-invalid");
+    $('#title').removeClass("is-invalid");
     $('#startDate').removeClass("is-invalid");
     $('#endDate').removeClass("is-invalid");
     $('#description').removeClass("is-invalid");
 
 
-    $('#taskName').addClass("is-valid");
+    $('#title').addClass("is-valid");
     $('#startDate').addClass("is-valid");
     $('#endDate').addClass("is-valid");
     $('#description').addClass("is-valid");
 
-    let title_name = $("#taskName").val();
+    let title_name = $("#title").val();
     let start_date_val = $("#startDate").val();
     let end_date_val = $("#endDate").val();
     let description_val = $("#description").val();
