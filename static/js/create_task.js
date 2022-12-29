@@ -16,7 +16,7 @@ $("#add").click(function (e) {
     if (new_person != "Выберетите сотрудника" && !(person_val.includes(new_person_id))) {
         console.log(new_person);
         test = 
-        `<div class="toast align-items-center"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
+        `<div class="toast align-items-center user_toast"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
             <div class="d-flex">
             <div class="toast-body">
             `+new_person+`
@@ -26,7 +26,7 @@ $("#add").click(function (e) {
         </div>`
 
         $("#all_persons").append(test);
-        let toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        let toastElList = [].slice.call(document.querySelectorAll('.user_toast'))
         let toastList = toastElList.map(function (toastEl) {
             return new bootstrap.Toast(toastEl)
         })
@@ -61,6 +61,9 @@ $("#update").click(function (e) {
     let end_date_val = $("#endDate").val();
     let description_val = $("#description").val();
 
+    let start_date = new Date(start_date_val).getTime()
+    let end_date = new Date(end_date_val).getTime()
+
     const re = new  RegExp('(^\\s+$|^$)')
     is_valid = true;
     if (re.test(title_name)) {
@@ -87,6 +90,15 @@ $("#update").click(function (e) {
         is_valid = false
         $('#description').removeClass("is-valid");
         $("#description").addClass("is-invalid")
+        // show error
+    }
+
+    if (start_date > end_date) {
+        is_valid = false
+        $('#startDate').removeClass("is-valid");
+        $("#startDate").addClass("is-invalid");
+        $('#endDate').removeClass("is-valid");
+        $("#endDate").addClass("is-invalid");
         // show error
     }
 
@@ -117,9 +129,16 @@ $("#update").click(function (e) {
         data: send_data,
         contentType: "application/json",
         dataType: "json",
-        success: function (response) {
-            console.log("Ok")
+        statusCode:{
+            200:function() {
+                console.log("SOME")
+                let toast = new bootstrap.Toast(document.getElementById('done'))
+                toast.show()
+            },
+            500: function() {
+                let toast = new bootstrap.Toast(document.getElementById('fail'))
+                toast.show()
+            }
         }
     });
-    
 });

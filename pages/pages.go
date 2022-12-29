@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"reflect"
 	"strconv"
 )
 
@@ -57,7 +58,7 @@ func Project_info(c *gin.Context) {
 
 		c.HTML(200, "project_info.html", returningResult)
 	} else {
-		c.Redirect(302, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
 
@@ -73,7 +74,7 @@ func All_calendar(c *gin.Context) {
 		}
 		c.HTML(200, "all_calendar.html", returningResult)
 	} else {
-		c.Redirect(302, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 
 }
@@ -83,7 +84,6 @@ func Project_calendar(c *gin.Context) {
 		// Get data from DB
 
 		id := c.Param("id")
-		fmt.Println(id)
 
 		returningResult := gin.H{
 			"Id": id,
@@ -96,11 +96,15 @@ func Project_calendar(c *gin.Context) {
 
 		c.HTML(200, "calendar.html", returningResult)
 	} else {
-		c.Redirect(302, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
 
 func Login_page(c *gin.Context) {
+	_, err := c.Cookie("user")
+	if err == nil {
+		c.Redirect(http.StatusFound, "/")
+	}
 	c.HTML(200, "login.html", nil)
 }
 
@@ -113,15 +117,15 @@ func Registration(c *gin.Context) {
 	if is_logining.Login == true { //отправка подтверждения логина
 		c.SetSameSite(http.SameSiteNoneMode)
 		c.SetCookie("user", user_id, 3600, "/", "localhost", true, false)
-		returningResult := gin.H{
-			"login": "true",
-		}
+		returningResult := gin.H{}
 		if is_logining.Admin {
 			returningResult["admin"] = true
 			c.SetCookie("admin", string("true"), 3600, "/", "localhost", true, false)
 		}
-		c.JSON(http.StatusOK, returningResult)
 	}
+
+	c.JSON(http.StatusOK, nil)
+
 	if decode != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"response": decode.Error(),
@@ -134,10 +138,14 @@ func Task_info(c *gin.Context) {
 	_, err := c.Cookie("user")
 	if err == nil {
 		taskId := c.Param("task_id")
+		id := c.Param("id")
 		all_persons := datamysql.ExtractDataUsers()
 		task := datamysql.ExtractDataTask(taskId)
 		persons := datamysql.ExtractDataUsers_Task(taskId)
-
+		if reflect.DeepEqual(task, model.Task{}) {
+			c.Redirect(http.StatusFound, "/project/"+id)
+			return
+		}
 		returningResult := gin.H{
 			"title":       task.Title,
 			"startDate":   task.Start,
@@ -155,7 +163,7 @@ func Task_info(c *gin.Context) {
 
 		c.HTML(200, "task_info.html", returningResult)
 	} else {
-		c.Redirect(302, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
 
@@ -165,6 +173,12 @@ func Edit_info(c *gin.Context) {
 		id := c.Param("id")
 		admin, _ := c.Cookie("admin")
 		project_info := datamysql.ExtractDataProject(id)
+
+		if reflect.DeepEqual(project_info, model.Task{}) {
+			c.Redirect(http.StatusFound, "/")
+			return
+		}
+
 		returningResult := gin.H{
 			"title":      project_info.Title,
 			"text":       project_info.Text,
@@ -177,7 +191,7 @@ func Edit_info(c *gin.Context) {
 		}
 		c.HTML(200, "edit_info.html", returningResult)
 	} else {
-		c.Redirect(302, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
 func Create_project(c *gin.Context) {
@@ -191,7 +205,7 @@ func Create_project(c *gin.Context) {
 		}
 		c.HTML(200, "create_project.html", returningResult)
 	} else {
-		c.Redirect(302, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
 func Create_task(c *gin.Context) {
@@ -210,7 +224,7 @@ func Create_task(c *gin.Context) {
 		}
 		c.HTML(200, "create_task.html", returningResult)
 	} else {
-		c.Redirect(302, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
 func Get_all_calendar(c *gin.Context) {
@@ -228,7 +242,6 @@ func Get_tasks(c *gin.Context) {
 	for i := 0; i < len(tasks); i++ {
 		tasks[i].Url = "../project/" + string(id) + "/task/" + string(tasks[i].Id)
 	}
-
 	c.JSON(http.StatusOK, tasks)
 	return
 
@@ -247,7 +260,7 @@ func Person_tasks(c *gin.Context) {
 		}
 		c.HTML(200, "all_tasks.html", returningResult)
 	} else {
-		c.Redirect(302, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
 
@@ -264,7 +277,7 @@ func NewPerson(c *gin.Context) {
 		}
 
 	} else {
-		c.Redirect(302, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
 func CreateUser(c *gin.Context) {
@@ -301,6 +314,7 @@ func CreateTask(c *gin.Context) {
 		})
 	}
 	datamysql.AddTask(task.Title, task.Start, task.End, task.Text, id, task.Person_Mas)
+
 }
 
 func Update_project(c *gin.Context) {
@@ -328,4 +342,17 @@ func Update_task(c *gin.Context) {
 		})
 	}
 	datamysql.UpdateTask(id, task.Title, task.Start, task.End, task.Text, task.Person_Mas)
+}
+
+func DeleteTask(c *gin.Context) {
+	id := c.Param("id")
+	task_id := c.Param("task_id")
+
+	datamysql.DeleteTaskFromDB(id, task_id)
+}
+
+func DeleteProject(c *gin.Context) {
+	id := c.Param("id")
+
+	datamysql.DeleteProjectFromDB(id)
 }

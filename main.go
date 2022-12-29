@@ -39,7 +39,9 @@ func main() {
 	router.POST("/api/project/:id", pages.Update_project)
 	router.POST("/api/new_login", pages.CreateUser)
 	router.POST("/api/new_project", pages.CreateProject)
-	router.POST("api/project/:id/add_task/", pages.CreateTask)
+	router.POST("/api/project/:id/add_task/", pages.CreateTask)
+	router.POST("/api/delete_project/:id", pages.DeleteProject)
+	router.POST("/api/from_project/:id/del_task/:task_id", pages.DeleteTask)
 
 	router.Run(":3001")
 

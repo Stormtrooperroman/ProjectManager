@@ -31,6 +31,10 @@ type Projects struct {
 	Text string
 
 	Id int
+
+	BackgroundColor string
+
+	TextColor string
 }
 
 type Task struct {

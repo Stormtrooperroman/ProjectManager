@@ -76,12 +76,12 @@ func ExtractData_Projects() []model.Projects {
 
 	var data model.Projects
 	var data_mas []model.Projects
-	res, err := Db.Query("SELECT `name`,`id`, `description` FROM `projects` ;")
+	res, err := Db.Query("SELECT `name`,`id`, `description`, `colour`, `text_colour` FROM `projects` ;")
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&data.Title, &data.Id, &data.Text)
+		err = res.Scan(&data.Title, &data.Id, &data.Text, &data.BackgroundColor, &data.TextColor)
 		if err != nil {
 			panic(err)
 		}
@@ -319,4 +319,36 @@ func UpdateTask(id string, name string, start_date string, end_date string, desc
 		fmt.Println(result2.RowsAffected()) // количество затронутых строк
 	}
 
+}
+
+func DeleteTaskFromDB(id string, task_id string) {
+	result, err := Db.Exec("DELETE FROM task_for_emp WHERE task_id in (SELECT id FROM tasks WHERE id = ? AND project_id = ?)", task_id, id)
+	if err != nil {
+		panic(err)
+	}
+	result1, err1 := Db.Exec("DELETE FROM tasks WHERE id = ? AND project_id = ?", task_id, id)
+	if err1 != nil {
+		panic(err)
+	}
+	fmt.Println(result.RowsAffected())
+	fmt.Println(result1.RowsAffected()) // количество затронутых строк
+}
+
+func DeleteProjectFromDB(id string) {
+	result, err := Db.Exec("DELETE FROM task_for_emp WHERE task_id in (SELECT id FROM tasks WHERE project_id = ?)", id)
+	if err != nil {
+		panic(err)
+	}
+	result1, err1 := Db.Exec("DELETE FROM tasks WHERE  project_id = ?", id)
+	if err1 != nil {
+		panic(err)
+	}
+
+	result2, err2 := Db.Exec("DELETE FROM projects WHERE id = ?", id)
+	if err2 != nil {
+		panic(err)
+	}
+	fmt.Println(result.RowsAffected())
+	fmt.Println(result1.RowsAffected()) // количество затронутых строк
+	fmt.Println(result2.RowsAffected())
 }

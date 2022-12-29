@@ -8,18 +8,24 @@ document.addEventListener('DOMContentLoaded', function() {
         type: "GET",
         url: "../api/tasks/"+id,
         success: function (response) {
-            for (let i = 0; i < response.length; i++) {
-                arr[i] = response[i];
-                console.log(arr[i])
+            if (response != null) {
+                for (let i = 0; i < response.length; i++) {
+                    arr[i] = response[i];
+                }
             }
-        },
-        
+        }
     })
     .always(function() {
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
+        if (arr.length > 0 ) {
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
                 events: arr
-        });
+            });
+        } else {
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth'
+            });
+        }
         calendar.render();
     });
 });

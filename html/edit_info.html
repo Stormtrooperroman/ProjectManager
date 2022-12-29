@@ -72,14 +72,66 @@
                     <span class="input-group-text">Цвет текста</span>
                     <input id="text_color" type="color" class="form-control" aria-label="Task Name" value="{{ .text_color}}">
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="button" id="update">Обновить</button>
-                <button class="btn btn-lg btn-outline-danger btn-block" type="button" id="delete">Удалить</button>
+                <div class="row justify-content-between">
+                    <div class="col-2 text-center">
+                        <button class="btn btn-lg btn-primary btn-block" type="button" id="update">Обновить</button>
+                    </div>
+                    <div class="col-2 text-center">
+                        <button class="btn btn-lg btn-outline-danger btn-block" type="button" id="delete">Удалить</button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
 
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="done_update" class="toast hide bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Обновление проекта</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Проект успешно обновлен
+                </div>
+            </div>
+        </div>
 
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="fail_update" class="toast hide bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Обновление проекта</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Произошла ошибка при обновлении проекта
+                </div>
+            </div>
+        </div>
 
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="done_del" class="toast hide bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Удаление проекта</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Проект успешно удалён
+                </div>
+            </div>
+        </div>
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="fail_del" class="toast hide bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Удаление проекта</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Произошла ошибка при удалении проекта
+                </div>
+            </div>
+        </div>
 
         <!-- Bootstrap script start -->
         <script src="../../../static/js/bootstrap.min.js"></script>

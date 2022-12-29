@@ -17,7 +17,7 @@
     <body>
         <div class="container">
             <!-- NavBABABABr start -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
                 <div class="container-fluid">
                 <a class="navbar-brand" href="../">SiParrots</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,7 @@
                     <div class="col  ">
                         <div id="all_persons">
                             {{range .person}}
-                            <div class="toast align-items-center"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
+                            <div class="toast align-items-center user_toast"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
                                 <div class="d-flex">
                                 <div class="toast-body">
                                 {{ .LName }} {{ .FName }} {{.Id}}
@@ -94,7 +94,14 @@
                         <button class="btn btn-lg btn-outline-secondary btn-block" type="button" id="persons">Добавить</button>
                     </div>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="button" id="update">Обновить</button>
+                <div class="row justify-content-between">
+                    <div class="col-2 text-center">
+                        <button class="btn btn-lg btn-primary btn-block" type="button" id="update">Обновить</button>
+                    </div>
+                    <div class="col-2 text-center">
+                        <button class="btn btn-lg btn-outline-danger btn-block" type="button" id="delete">Удалить</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -125,6 +132,53 @@
           </div>
 
 
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="done_update" class="toast hide bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Обновление задания</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Задание успешно обновлено
+                </div>
+            </div>
+        </div>
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="fail_update" class="toast hide bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Обновление задания</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Произошла ошибка при обновлении задания
+                </div>
+            </div>
+        </div>
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="done_del" class="toast hide bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Удаление задания</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Задание успешно удалено
+                </div>
+            </div>
+        </div>
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="fail_del" class="toast hide bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Удаление задания</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Произошла ошибка при удалении задания
+                </div>
+            </div>
+        </div>
 
 
         <!-- Bootstrap script start -->

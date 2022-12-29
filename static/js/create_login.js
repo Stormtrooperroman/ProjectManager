@@ -16,22 +16,23 @@ $("#send").click(function (e) {
     let last_name = $("#inputLName").val();
     let pass = $("#inputPassword").val();
     let rep_pass = $("#reInputPassword").val();
+    const re = new  RegExp('(^\\s+$|^$)')
     is_valid = true;
-    if (login == "")
+    if (re.test(login))
     {
         is_valid = false
         $('#inputLogin').removeClass("is-valid");
         $("#inputLogin").addClass("is-invalid")
         // show error
     }
-    if (name == "")
+    if (re.test(name))
     {
         is_valid = false
         $('#inputName').removeClass("is-valid");
         $("#inputName").addClass("is-invalid")
         // show error
     } 
-    if (last_name == "")
+    if (re.test(last_name))
     {
         is_valid = false
         $('#inputLName').removeClass("is-valid");
@@ -39,7 +40,7 @@ $("#send").click(function (e) {
         $("#inputLName").addClass("is-invalid")
         // show error
     } 
-    if (pass == "")
+    if (re.test(pass))
     {
         is_valid = false
         $('#inputPassword').removeClass("is-valid");
@@ -72,9 +73,15 @@ $("#send").click(function (e) {
         data: send_data,
         contentType: "application/json",
         dataType: "json",
-        success: function (response) {
-            
+        statusCode:{
+            200:function() {
+                let toast = new bootstrap.Toast(document.getElementById('done'))
+                toast.show()
+            },
+            500: function() {
+                let toast = new bootstrap.Toast(document.getElementById('fail'))
+                toast.show()
+            }
         }
     });
-    
 });

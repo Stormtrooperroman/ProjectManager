@@ -60,7 +60,7 @@
 
                 <div class="input-group mb-3">
                     <span class="input-group-text">Описание проекта</span>
-                    <textarea id="description" class="form-control" aria-label="Описание">  </textarea>
+                    <textarea id="description" class="form-control" aria-label="Описание"></textarea>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Цвет проекта</span>
@@ -75,7 +75,29 @@
         </div>
 
 
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="done" class="toast hide bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Создание проекта</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Проект успешно создан
+                </div>
+            </div>
+        </div>
 
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="fail" class="toast hide bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Создание проекта</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Произошла ошибка при создании проекта
+                </div>
+            </div>
+        </div>
 
 
         <!-- Bootstrap script start -->

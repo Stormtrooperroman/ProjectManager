@@ -11,15 +11,9 @@ $("#send").click(function (e) {
         data: send_data,
         contentType: "application/json",
         dataType: "json",
-        success: function (response) {
-            console.log(response);
-            console.log(response['login']);
-            if (response['login'] == "true") {
-                // let old = window.location.href;
-                console.log(window.location);
-                window.location = "http://localhost:3001";
-                console.log(response['login']);
-            }
+        success: function () {
+            console.log("AHAHHAHAHAHAH")
+            location.reload()
         }
     });
     

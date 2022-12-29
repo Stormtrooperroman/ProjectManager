@@ -46,16 +46,16 @@
                 </div>
             </nav>
             <!-- NavBABABABr end -->
-            <div class="d-flex">
+            <div class="mt-4">
                 <a href="./edit/{{ .id }}" class="btn btn-lg btn-outline-primary btn-block" type="button">Добаить проект</a>
             </div>
-            <div class="row row-cols-2 row-cols-md-4 g-4 justify-content-around">
+            <div class="row row-cols-2 row-cols-md-4 g-4 justify-content-around mt-1">
                 
             
                 <!-- Start card -->
                 {{range .projects}}
                 <div class="col">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card" style="width: 18rem; background-color: {{ .BackgroundColor }}; color: {{ .TextColor }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ .Title }}</h5>
                             <p class="card-text">
@@ -76,8 +76,7 @@
         <!-- JQuery script start -->
         <script src="../static/js/jquery.min.js"></script>
         <!-- JQuery script end -->
-        
-        <script src="../static/js/projects.js"></script>
+
         <script src="../static/js/logout.js"></script>
     </body>
 </html>

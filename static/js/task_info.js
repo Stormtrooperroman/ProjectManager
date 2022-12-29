@@ -4,7 +4,7 @@ $("#persons").click(function (e) {
     myModal.show();
 });
 
-let toastElList = [].slice.call(document.querySelectorAll('.toast'))
+let toastElList = [].slice.call(document.querySelectorAll('.user_toast'))
 let toastList = toastElList.map(function (toastEl) {
     return new bootstrap.Toast(toastEl)
 })
@@ -22,7 +22,7 @@ $("#add").click(function (e) {
     });
     if (new_person != "Выберетите сотрудника" && !(person_val.includes(new_person_id))) {
         test = 
-        `<div class="toast align-items-center"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
+        `<div class="toast align-items-center user_toast user_toast"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
             <div class="d-flex">
             <div class="toast-body">
             `+new_person+`
@@ -32,7 +32,7 @@ $("#add").click(function (e) {
         </div>`
 
         $("#all_persons").append(test);
-        let toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        let toastElList = [].slice.call(document.querySelectorAll('.user_toast'))
         let toastList = toastElList.map(function (toastEl) {
             return new bootstrap.Toast(toastEl)
         })
@@ -67,7 +67,8 @@ $("#update").click(function (e) {
     let start_date_val = $("#startDate").val();
     let end_date_val = $("#endDate").val();
     let description_val = $("#description").val();
-
+    let start_date = new Date(start_date_val).getTime()
+    let end_date = new Date(end_date_val).getTime()
     const re = new  RegExp('(^\\s+$|^$)')
     is_valid = true;
     if (re.test(title_name)) {
@@ -97,6 +98,17 @@ $("#update").click(function (e) {
         // show error
     }
 
+    if (start_date > end_date) {
+        is_valid = false
+        $('#startDate').removeClass("is-valid");
+        $("#startDate").addClass("is-invalid");
+        $('#endDate').removeClass("is-valid");
+        $("#endDate").addClass("is-invalid");
+        // show error
+    }
+
+    console.log(end_date+" "+ start_date)
+
     if(!is_valid){
         return
     }
@@ -111,12 +123,6 @@ $("#update").click(function (e) {
         person_val.push(toaster["innerText"].split(" ")[2])
     });
 
-    if(start_date_val =='' ){
-        start_date_val = '2022-04-14'
-    }
-    if(end_date_val == '' ){
-        end_date_val = '2022-04-14'
-    }
     console.log(person_val)
     let send_data = JSON.stringify({
         title: title_name,
@@ -134,9 +140,40 @@ $("#update").click(function (e) {
         data: send_data,
         contentType: "application/json",
         dataType: "json",
-        success: function (response) {
-            console.log("Ok")
+        statusCode:{
+            200:function() {
+                let toast = new bootstrap.Toast(document.getElementById('done_update'))
+                toast.show()
+            },
+            500: function() {
+                let toast = new bootstrap.Toast(document.getElementById('fail'))
+                toast.show()
+            }
         }
     });
     
+});
+
+$("#delete").click(function (e) {
+
+    let page_url = window.location.href.split('/')
+    let task_id = page_url[page_url.length - 1]
+    let project_id = page_url[page_url.length - 3]
+    $.ajax({
+        type: "POST",
+        url: "../../../api/from_project/"+project_id+"/del_task/"+task_id,
+        statusCode:{
+            200:function() {
+                let toast = new bootstrap.Toast(document.getElementById('done_del'))
+                toast.show()
+
+                location.reload()
+            },
+            500: function() {
+                let toast = new bootstrap.Toast(document.getElementById('fail'))
+                toast.show()
+            }
+        }
+    });
+
 });

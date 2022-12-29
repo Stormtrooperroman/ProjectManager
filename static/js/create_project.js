@@ -46,8 +46,15 @@ $("#update").click(function (e) {
         data: send_data,
         contentType: "application/json",
         dataType: "json",
-        success: function (response) {
-            console.log("Ok")
+        statusCode:{
+            200:function() {
+                let toast = new bootstrap.Toast(document.getElementById('done'))
+                toast.show()
+            },
+            500: function() {
+                let toast = new bootstrap.Toast(document.getElementById('fail'))
+                toast.show()
+            }
         }
     });
     
