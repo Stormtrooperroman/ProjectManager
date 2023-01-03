@@ -5,6 +5,8 @@ flush privileges;
 create Database project;
 use project;
 
+SET NAMES 'utf8';
+
 create table projects
 (
     id          int  not null AUTO_INCREMENT
@@ -14,7 +16,7 @@ create table projects
     end_date    date          null,
     colour      varchar(100)  null,
     description varchar(1000) null
-);
+) DEFAULT CHARSET=utf8;
 
 
 create table employees
@@ -26,7 +28,7 @@ create table employees
     first_name varchar(100) null,
     last_name  varchar(100) null,
     is_admin   tinyint(1)   null
-);
+) DEFAULT CHARSET=utf8;
 
 
 create table tasks
@@ -42,7 +44,7 @@ create table tasks
 
     constraint tasks_projects_fk
         foreign key (project_id) references projects (id)
-);
+) DEFAULT CHARSET=utf8;
 
 
 create table task_for_emp
@@ -54,7 +56,7 @@ create table task_for_emp
         foreign key (task_id) references tasks (id),
     constraint task_for_emp_ibfk_2
         foreign key (emp_id) references employees (id)
-);
+) DEFAULT CHARSET=utf8;
 
 create index emp_id
     on task_for_emp (emp_id);
