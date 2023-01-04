@@ -1,0 +1,21 @@
+version: "3"
+
+
+services:
+
+
+  database:
+    build: MySQL/
+    container_name: sqlmyDBsin
+    restart: always
+    environment:
+      MYQSL_ROOT_PASSWORD: 210104Sib! 
+      MYSQL_ALLOW_EMPTY_PASSWORD : 210104Sib!
+    ports:
+      - 3306:3306
+
+
+  backend:
+    build: BackEnd/
+    ports:
+      - 3001:3001
