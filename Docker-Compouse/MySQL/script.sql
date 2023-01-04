@@ -1,6 +1,4 @@
-CREATE USER 'sibcoder'@'172.18.0.2' IDENTIFIED BY '210104Sib!';
-GRANT ALL PRIVILEGES ON *.* TO 'sibcoder'@'%' WITH GRANT OPTION;
-flush privileges;
+CREATE USER 'sibcoder'@'%' IDENTIFIED BY '210104Sib!';
 
 create Database project;
 use project;
@@ -79,7 +77,9 @@ INSERT INTO  tasks (id ,name, start_date, end_date, project_id, description) VAL
 INSERT INTO  tasks (name, start_date, end_date, project_id, description) VALUES ('Сдать 2 фазу', STR_TO_DATE('2022-11-28', '%Y-%m-%d'), STR_TO_DATE('2022-12-28', '%Y-%m-%d'), 1, 'Создание менеджера проектов. Задачи 2 фазы.');
 INSERT INTO  tasks (name, start_date, end_date, project_id, description) VALUES ('Сдать 3 фазу', STR_TO_DATE('2022-11-28', '%Y-%m-%d'), STR_TO_DATE('2022-12-28', '%Y-%m-%d'), 1, 'Создание менеджера проектов. Задачи 3 фазы.');
 
-INSERT INTO task_for_emp (task_id, emp_id) VALUES(1,2)
+INSERT INTO task_for_emp (task_id, emp_id) VALUES(1,2);
 
-CREATE USER 'sibcoder'@'%' IDENTIFIED BY '210104Sib!';
+
 GRANT ALL PRIVILEGES ON *.* TO 'sibcoder'@'%' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
