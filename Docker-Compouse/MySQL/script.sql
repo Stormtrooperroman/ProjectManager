@@ -38,7 +38,7 @@ create table tasks
     end_date    date          null,
     project_id  int           null,
     description varchar(1000) null,
-    is_finished   tinyint(1)   null,
+    is_finished boolean not null default 0,
 
     constraint tasks_projects_fk
         foreign key (project_id) references projects (id)
