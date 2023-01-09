@@ -54,13 +54,11 @@ $("#update").click(function (e) {
     $('#title').removeClass("is-invalid");
     $('#startDate').removeClass("is-invalid");
     $('#endDate').removeClass("is-invalid");
-    $('#description').removeClass("is-invalid");
 
 
     $('#title').addClass("is-valid");
     $('#startDate').addClass("is-valid");
     $('#endDate').addClass("is-valid");
-    $('#description').addClass("is-valid");
 
 
     let title_name = $("#title").val();
@@ -91,12 +89,6 @@ $("#update").click(function (e) {
         // show error
     }
 
-    if (re.test(description_val)) {
-        is_valid = false
-        $('#description').removeClass("is-valid");
-        $("#description").addClass("is-invalid")
-        // show error
-    }
 
     if (start_date > end_date) {
         is_valid = false
@@ -118,22 +110,29 @@ $("#update").click(function (e) {
 
     let person_val = []
     let persons_data = [].slice.call(document.querySelectorAll('.toast-body'))
-    console.log(persons_data)
     persons_data.forEach(toaster => {
         person_val.push(toaster["innerText"].split(" ")[2])
     });
+    let is_fin = false
 
-    console.log(person_val)
+    if ($('#is_finished').is(":checked")){
+        is_fin = true
+    }
     let send_data = JSON.stringify({
         title: title_name,
         start: start_date_val,
         end: end_date_val,
         text: description_val,
-        person_mas: person_val
+        person_mas: person_val,
+        is_finished: is_fin
     })
     let page_url = window.location.href.split('/')
     let task_id = page_url[page_url.length - 1]
     let project_id = page_url[page_url.length - 3]
+
+
+
+
     $.ajax({
         type: "POST",
         url: "../../../api/project/"+project_id+"/task/"+task_id,

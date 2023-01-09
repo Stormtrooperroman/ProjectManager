@@ -1,30 +1,20 @@
 $("#update").click(function (e) {
 
     $('#title').removeClass("is-invalid");
-    $('#description').removeClass("is-invalid");
 
 
     $('#title').addClass("is-valid");
-    $('#description').addClass("is-valid");
 
-    let title = $("#title").val();
-    let description = $("#description").val();
+    let title_name = $("#title").val();
     const re = new  RegExp('(^\\s+$|^$)')
     is_valid = true;
-    if (re.test(title)) {
+    if (re.test(title_name)) {
         is_valid = false
         $('#title').removeClass("is-valid");
         $("#title").addClass("is-invalid")
         // show error
     }
-    if (re.test(description)) {
-        is_valid = false
-        $('#description').removeClass("is-valid");
-        $("#description").addClass("is-invalid")
-        // show error
-    }
 
-    let title_name = $("#title").val();
     let description_val = $("#description").val();
     let color_val = $("#color").val();
     let text_color_val = $("#text_color").val();

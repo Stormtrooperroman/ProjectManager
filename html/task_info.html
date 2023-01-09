@@ -19,7 +19,7 @@
             <!-- NavBABABABr start -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
                 <div class="container-fluid">
-                <a class="navbar-brand" href="../">SiParrots</a>
+                <a class="navbar-brand" href="../../../">SiParrots</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -94,6 +94,12 @@
                         <button class="btn btn-lg btn-outline-secondary btn-block" type="button" id="persons">Добавить</button>
                     </div>
                 </div>
+
+                <div class="form-check mb-3">
+                    <label class="form-check-label" for="is_finished">Задача завершенна</label>
+                    <input type="checkbox" id="is_finished" class="form-check-input" aria-label="Задача завершенна" {{ if .Is_finished }} checked {{end}}>
+                </div>
+
                 <div class="row justify-content-between">
                     <div class="col">
                         <button class="btn btn-lg btn-primary btn-block" type="button" id="update">Обновить</button>
@@ -102,6 +108,7 @@
                         <button class="btn btn-lg btn-outline-danger btn-block" type="button" id="delete">Удалить</button>
                     </div>
                 </div>
+
             </div>
         </div>
 

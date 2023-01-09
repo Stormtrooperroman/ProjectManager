@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"reflect"
 	"strconv"
+	"time"
 )
 
 func Project_page(c *gin.Context) {
@@ -35,11 +36,22 @@ func Project_info(c *gin.Context) {
 	_, err := c.Cookie("user")
 	if err == nil {
 		id := c.Param("id")
-		tasks := datamysql.ExtractDataProject_info(id) //добавил для отрисовки
 		project_info := datamysql.ExtractDataProject(id)
+
+		if reflect.DeepEqual(project_info, model.Task{}) {
+			c.Redirect(http.StatusFound, "/")
+			return
+		}
+
+		tasks := datamysql.ExtractDataProject_info(id) //добавил для отрисовки
+		date := time.Now()
 		for i := 0; i < len(tasks); i++ {
 			tasks[i].Url = "../project/" + string(id) + "/task/" + string(tasks[i].Id)
+			finTime, _ := time.Parse("2006-01-02", tasks[i].End)
+			tasks[i].Ongoing = date.Before(finTime)
 		}
+
+		fmt.Println(time.Now())
 
 		returningResult := gin.H{
 			"tasks":         tasks,
@@ -84,6 +96,13 @@ func Project_calendar(c *gin.Context) {
 		// Get data from DB
 
 		id := c.Param("id")
+
+		project_info := datamysql.ExtractDataProject(id)
+
+		if reflect.DeepEqual(project_info, model.Task{}) {
+			c.Redirect(http.StatusFound, "/")
+			return
+		}
 
 		returningResult := gin.H{
 			"Id": id,
@@ -173,7 +192,7 @@ func Edit_info(c *gin.Context) {
 		id := c.Param("id")
 		admin, _ := c.Cookie("admin")
 		project_info := datamysql.ExtractDataProject(id)
-
+		fmt.Println(project_info)
 		if reflect.DeepEqual(project_info, model.Task{}) {
 			c.Redirect(http.StatusFound, "/")
 			return
@@ -335,13 +354,13 @@ func Update_task(c *gin.Context) {
 	var task *model.Task
 	id := c.Param("task_id")
 	decode := json.NewDecoder(c.Request.Body).Decode(&task)
-	//fmt.Println(project.Name, " ", project.Description, " ", project.Colour)
+	fmt.Println(id)
 	if decode != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"response": decode.Error(),
 		})
 	}
-	datamysql.UpdateTask(id, task.Title, task.Start, task.End, task.Text, task.Person_Mas)
+	datamysql.UpdateTask(id, task.Title, task.Start, task.End, task.Text, task.Person_Mas, task.Is_finished)
 }
 
 func DeleteTask(c *gin.Context) {

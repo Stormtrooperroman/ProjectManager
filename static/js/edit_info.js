@@ -1,13 +1,11 @@
 $("#update").click(function (e) {
 
     $('#title').removeClass("is-invalid");
-    $('#description').removeClass("is-invalid");
     $('#color').removeClass("is-invalid");
     $('#text_color').removeClass("is-invalid");
 
 
     $('#title').addClass("is-valid");
-    $('#description').addClass("is-valid");
     $('#color').addClass("is-valid");
     $('#text_color').addClass("is-valid");
 
@@ -26,12 +24,6 @@ $("#update").click(function (e) {
         // show error
     }
 
-    if (re.test(description_val)) {
-        is_valid = false
-        $('#description').removeClass("is-valid");
-        $("#description").addClass("is-invalid")
-        // show error
-    }
     if (re.test(color_val)) {
         is_valid = false
         $('#color').removeClass("is-valid");
@@ -100,6 +92,4 @@ $("#delete").click(function (e) {
             }
         }
     });
-
-
 });

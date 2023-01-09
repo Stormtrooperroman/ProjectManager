@@ -49,6 +49,8 @@ type Task struct {
 	Project_name    string
 	Project_id      string `json:"project_Id"`
 	Person_Mas      []string
+	Is_finished     bool `json:"is_finished"`
+	Ongoing         bool
 }
 
 type Person struct {

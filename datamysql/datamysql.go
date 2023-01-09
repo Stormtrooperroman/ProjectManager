@@ -97,12 +97,12 @@ func ExtractData_Projects() []model.Projects {
 func ExtractDataProject_info(id string) []model.Task { //получение пользователя из бд
 	var u model.Task
 	var u_mas []model.Task
-	res, err := Db.Query("SELECT tasks.id, tasks.name, tasks.start_date, tasks.end_date, tasks.description, projects.colour, projects.text_colour FROM tasks INNER JOIN projects ON tasks.project_id = projects.id WHERE tasks.project_id = ? ;", id)
+	res, err := Db.Query("SELECT tasks.id, tasks.name, tasks.start_date, tasks.end_date, tasks.description, projects.colour, projects.text_colour, tasks.is_finished FROM tasks INNER JOIN projects ON tasks.project_id = projects.id WHERE tasks.project_id = ? ;", id)
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text, &u.BackgroundColor, &u.TextColor)
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text, &u.BackgroundColor, &u.TextColor, &u.Is_finished)
 		if err != nil {
 			panic(err)
 		}
@@ -123,6 +123,7 @@ func ExtractDataProject(id string) model.Task { //получение польз�
 	}
 	for res.Next() {
 		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text, &u.BackgroundColor, &u.TextColor)
+
 		if err != nil {
 			panic(err)
 		}
@@ -136,12 +137,12 @@ func ExtractDataProject(id string) model.Task { //получение польз�
 func ExtractDataTask(id string) model.Task { //получение пользователя из бд
 	var u model.Task
 
-	res, err := Db.Query("SELECT  id ,name, start_date, end_date,description FROM tasks WHERE id = ? ;", id)
+	res, err := Db.Query("SELECT  id ,name, start_date, end_date,description, is_finished FROM tasks WHERE id = ? ;", id)
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text)
+		err = res.Scan(&u.Id, &u.Title, &u.Start, &u.End, &u.Text, &u.Is_finished)
 		if err != nil {
 			panic(err)
 		}
@@ -288,8 +289,8 @@ func UpdateProject(id string, name string, description string, colour string, te
 	fmt.Println(result.LastInsertId()) // id добавленного объекта
 	fmt.Println(result.RowsAffected()) // количество затронутых строк
 }
-func UpdateTask(id string, name string, start_date string, end_date string, description string, person []string) {
-	result, err := Db.Exec("update  tasks set name=?, start_date=STR_TO_DATE(?, '%Y-%m-%d'), end_date=STR_TO_DATE(?, '%Y-%m-%d'), description =? where id = ?", name, start_date, end_date, description, id)
+func UpdateTask(id string, name string, start_date string, end_date string, description string, person []string, is_finished bool) {
+	result, err := Db.Exec("update  tasks set name=?, start_date=STR_TO_DATE(?, '%Y-%m-%d'), end_date=STR_TO_DATE(?, '%Y-%m-%d'), description =?, is_finished = ? where id = ?", name, start_date, end_date, description, is_finished, id)
 	if err != nil {
 		panic(err)
 	}

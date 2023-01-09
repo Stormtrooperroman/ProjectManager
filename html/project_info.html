@@ -58,6 +58,10 @@
                 <div class="col">
                     <a type="button" class="btn btn-outline-primary" href="../project/{{ .id }}/task/">Добавить задачу</a>
                 </div>
+
+                <div class="col">
+                    <button class="btn btn-lg btn-outline-danger btn-block" type="button" id="delete">Удалить</button>
+                </div>
             </div>
             
             <div class="text-center">
@@ -70,7 +74,14 @@
                 {{ range .tasks }}
                 <div class="row position-relative border border-2 border-secondary rounded-3 m-1">
                     <div class="col-1">
-                        Ok
+                        {{ if .Is_finished}}
+                            Выполнена
+                        {{ else if  .Ongoing}}
+                            Выполняется
+
+                        {{ else }}
+                            Просрочена
+                        {{ end }}
                     </div>
                     <div class="col-2">
                         {{ .Start }} - {{ .End }}
@@ -87,12 +98,43 @@
                 {{ end }}
             </div>
         </div>
+
+
+
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="done_del" class="toast hide bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Удаление проекта</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Проект успешно удалён
+                </div>
+            </div>
+        </div>
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="fail_del" class="toast hide bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Удаление проекта</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Произошла ошибка при удалении проекта
+                </div>
+            </div>
+        </div>
+
+
+
         <!-- Bootstrap script start -->
         <script src="../static/js/bootstrap.min.js"></script>
         <!-- Bootstrap script end -->
         <!-- JQuery script start -->
-        <script src="../../../static/js/jquery.min.js"></script>
+        <script src="../static/js/jquery.min.js"></script>
         <!-- JQuery script end -->
         <script src="../static/js/logout.js"></script>
+        <script src="../static/js/project_info.js"></script>
     </body>
 </html>

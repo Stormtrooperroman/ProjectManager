@@ -8,6 +8,11 @@ function getCookie(name) {
 $("#exit").click(function (e) {
     if(getCookie('user')) {
         document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        window.location.href = "http://localhost:3001/login";
     }
+
+    if(getCookie('admin')) {
+        document.cookie = "admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+    location.reload()
 });

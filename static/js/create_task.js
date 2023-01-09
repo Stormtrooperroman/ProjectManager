@@ -48,13 +48,11 @@ $("#update").click(function (e) {
     $('#title').removeClass("is-invalid");
     $('#startDate').removeClass("is-invalid");
     $('#endDate').removeClass("is-invalid");
-    $('#description').removeClass("is-invalid");
 
 
     $('#title').addClass("is-valid");
     $('#startDate').addClass("is-valid");
     $('#endDate').addClass("is-valid");
-    $('#description').addClass("is-valid");
 
     let title_name = $("#title").val();
     let start_date_val = $("#startDate").val();
@@ -86,13 +84,7 @@ $("#update").click(function (e) {
         // show error
     }
 
-    if (re.test(description_val)) {
-        is_valid = false
-        $('#description').removeClass("is-valid");
-        $("#description").addClass("is-invalid")
-        // show error
-    }
-
+    
     if (start_date > end_date) {
         is_valid = false
         $('#startDate').removeClass("is-valid");
