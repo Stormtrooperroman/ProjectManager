@@ -30,6 +30,7 @@ func main() {
 	router.GET("/project/:id/task/", pages.Create_task)
 	router.GET("/person_tasks", pages.Person_tasks)
 	router.GET("/new_person", pages.NewPerson)
+	router.GET("/all_users", pages.AllPersons)
 	//router.GET("/project/", )
 	//api
 	router.POST("/api/login", pages.Registration) // работает всё ок
@@ -42,6 +43,7 @@ func main() {
 	router.POST("/api/project/:id/add_task/", pages.CreateTask)
 	router.POST("/api/delete_project/:id", pages.DeleteProject)
 	router.POST("/api/from_project/:id/del_task/:task_id", pages.DeleteTask)
+	router.POST("/api/delete_user/:id", pages.DeleteUser)
 
 	router.Run(":3001")
 

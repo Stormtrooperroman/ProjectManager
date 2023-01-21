@@ -13,7 +13,7 @@
         <!-- Page style start -->
         <!-- <link rel="stylesheet" href="static/css/create_login.css"> -->
         <!-- Page style end -->
-        
+
     </head>
     <body>
         <div class="container">
@@ -21,7 +21,7 @@
                 <div class="container-fluid">
                     <a class="navbar-brand" href="./">SiParrots</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
+                        <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -38,59 +38,55 @@
                             <a href="./all_users" class="btn btn-lg btn-primary btn-block">Все пользователи</a>
                         </div>
                         <div class="d-flex mx-2">
-                            <a href="./new_person" class="btn btn-lg btn-primary btn-block" name="exit">Новый пользователь</a>
+                            <a href="./new_person" class="btn btn-lg btn-primary btn-block" >Новый пользователь</a>
                         </div>
                         {{ end }}
                         <div class="d-flex">
-                            <button id="exit" class="btn btn-lg btn-primary btn-block" id="exit" type="button" name="exit">Выход</button>
+                            <button id="exit" class="btn btn-lg btn-primary btn-block" id="exit" type="button">Выход</button>
                         </div>
                     </div>
                 </div>
             </nav>
-            <div class="row justify-content-center">
-                <div class="col-4 text-center">
-                    <h1 class="h3 mb-3 font-weight-normal">Создайте пользователя</h1>
 
-                    <div class="alert alert-danger" role="alert">
-                        Пользователем с таким логином уже существует.
-                    </div>
-
-                    <label for="inputLName" class="sr-only  mb-1">Фамилия</label>
-                    <input type="text" id="inputLName" class="form-control  mb-3" placeholder="Фамилия" required="" autofocus="">
-                    <label for="inputName" class="sr-only mb-1">Имя</label>
-                    <input type="text" id="inputName" class="form-control  mb-3" placeholder="Имя" required="" autofocus="">
-                    <label for="inputLogin" class="sr-only mb-1">Логин</label>
-                    <input type="text" id="inputLogin" class="form-control mb-3" placeholder="Логин" required="" autofocus="">
-                    <label for="inputPassword" class="sr-only mb-1">Пароль</label>
-                    <input type="text" id="inputPassword" class="form-control mb-3" placeholder="Пароль" required="">
-                    <label for="reInputPassword" class="sr-only mb-1">Подтвердить пароль</label>
-                    <input type="text" id="reInputPassword" class="form-control mb-3" placeholder="Пароль" required="">
-                    <button class="btn btn-lg btn-primary btn-block" id="send" type="button">Создать</button>
-
+            <div class="row position-relative border border-3 border-secondary rounded-3 m-1 mt-2 mb-2 text-center">
+                <div class="col-3 border border-1">
+                    Фамилия
+                </div>
+                <div class="col-3 border border-1">
+                    Имя
+                </div>
+                <div class="col-3 border border-1">
+                    Логин
                 </div>
             </div>
+
+            {{ range .users }}
+            <div id="{{.Id}}" class="row position-relative border border-2 border-secondary rounded-3 m-1 text-center">
+                <div class="col-3 border border-1">
+                    {{ .LName }}
+                </div>
+                <div class="col-3 border border-1">
+                    {{ .FName }}
+                </div>
+                <div class="col-3 border border-1">
+                    {{ .Login }}
+                </div>
+                <div class="col-3 border border-1">
+                    <button class="btn btn-outline-danger btn-block delete" value="{{.Id}}" type="button">Удалить</button>
+                </div>
+            </div>
+            {{ end }}
         </div>
 
+
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-            <div id="done" class="toast hide bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+            <div id="fail_del" class="toast hide bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
-                    <strong class="me-auto">Создание пользователя</strong>
+                    <strong class="me-auto">Удаление пользователя</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
-                    Пользователь успешно создан
-                </div>
-            </div>
-        </div>
-
-        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-            <div id="fail" class="toast hide bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="me-auto">Создание пользователя</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    Произошла ошибка при создании пользователя
+                    Произошла ошибка при удалении пользователя
                 </div>
             </div>
         </div>
@@ -102,8 +98,7 @@
         <!-- JQuery script start -->
         <script src="static/js/jquery.min.js"></script>
         <!-- JQuery script end -->
-        
-        <script src="static/js/create_login.js"></script>
+        <script src="static/js/all_users.js"></script>
         <script src="static/js/logout.js"></script>
     </body>
 </html>

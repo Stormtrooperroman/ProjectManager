@@ -9,7 +9,7 @@ $("#add").click(function (e) {
     let new_person = $("#new_person").val()
     let new_person_id = new_person.split(" ")[2]
     let person_val = []
-    let persons_data = [].slice.call(document.querySelectorAll('.toast-body'))
+    let persons_data = [].slice.call(document.querySelectorAll('.user-body'))
     persons_data.forEach(toaster => {
         person_val.push(toaster["innerText"].split(" ")[2])
     });
@@ -18,7 +18,7 @@ $("#add").click(function (e) {
         test = 
         `<div class="toast align-items-center user_toast"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
             <div class="d-flex">
-            <div class="toast-body">
+            <div class="toast-body user-body">
             `+new_person+`
             </div>
             <button type="button" class="btn-close me-2 m-auto delete" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -99,7 +99,7 @@ $("#update").click(function (e) {
     }
 
     let person_val = []
-    let persons_data = [].slice.call(document.querySelectorAll('.toast-body'))
+    let persons_data = [].slice.call(document.querySelectorAll('.user-body'))
     console.log(persons_data)
     persons_data.forEach(toaster => {
         person_val.push(toaster["innerText"].split(" ")[2])

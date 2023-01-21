@@ -22,6 +22,7 @@ type User_DB struct {
 	Id    int    `json:"id"`
 	FName string `json:"f_name"`
 	LName string `json:"l_name"`
+	Login string `json:"login"`
 	Admin int    `json:"admin"`
 }
 

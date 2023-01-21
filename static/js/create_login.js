@@ -1,3 +1,5 @@
+$(".alert").hide()
+
 $("#send").click(function (e) {
     $('#inputLogin').removeClass("is-invalid");
     $('#inputName').removeClass("is-invalid");
@@ -67,6 +69,9 @@ $("#send").click(function (e) {
     if(!is_valid){
         return
     }
+
+    $(".alert").hide()
+
     $.ajax({
         type: "POST",
         url: "../api/new_login",
@@ -74,9 +79,14 @@ $("#send").click(function (e) {
         contentType: "application/json",
         dataType: "json",
         statusCode:{
-            200:function() {
-                let toast = new bootstrap.Toast(document.getElementById('done'))
-                toast.show()
+            200:function(response) {
+                if (response && response["error"]){
+                    $('#inputLogin').addClass("is-invalid");
+                    $(".alert").show()
+                } else {
+                    let toast = new bootstrap.Toast(document.getElementById('done'))
+                    toast.show()
+                }
             },
             500: function() {
                 let toast = new bootstrap.Toast(document.getElementById('fail'))

@@ -48,7 +48,8 @@ func Project_info(c *gin.Context) {
 		for i := 0; i < len(tasks); i++ {
 			tasks[i].Url = "../project/" + string(id) + "/task/" + string(tasks[i].Id)
 			finTime, _ := time.Parse("2006-01-02", tasks[i].End)
-			tasks[i].Ongoing = date.Before(finTime)
+			tasks[i].Ongoing = finTime.Before(date)
+			fmt.Println(tasks[i].Ongoing)
 		}
 
 		fmt.Println(time.Now())
@@ -141,6 +142,11 @@ func Registration(c *gin.Context) {
 			returningResult["admin"] = true
 			c.SetCookie("admin", string("true"), 3600, "/", "localhost", true, false)
 		}
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"error": "Неверный логин или пароль.",
+		})
+		return
 	}
 
 	c.JSON(http.StatusOK, nil)
@@ -173,6 +179,7 @@ func Task_info(c *gin.Context) {
 			"person":      persons,
 			"all_persons": all_persons,
 			"id":          taskId,
+			"Is_finished": task.Is_finished,
 		}
 		admin, _ := c.Cookie("admin")
 
@@ -308,7 +315,16 @@ func CreateUser(c *gin.Context) {
 			"response": decode.Error(),
 		})
 	}
-	datamysql.AddPerson(user.Login, user.Password, user.FName, user.LName)
+	isCreated := datamysql.AddPerson(user.Login, user.Password, user.FName, user.LName)
+
+	if isCreated {
+		c.JSON(http.StatusOK, nil)
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"error": "Пользователь с данным логином существует.",
+		})
+	}
+	return
 }
 func CreateProject(c *gin.Context) {
 	var project *model.CreateProject
@@ -361,6 +377,7 @@ func Update_task(c *gin.Context) {
 		})
 	}
 	datamysql.UpdateTask(id, task.Title, task.Start, task.End, task.Text, task.Person_Mas, task.Is_finished)
+
 }
 
 func DeleteTask(c *gin.Context) {
@@ -374,4 +391,29 @@ func DeleteProject(c *gin.Context) {
 	id := c.Param("id")
 
 	datamysql.DeleteProjectFromDB(id)
+}
+func AllPersons(c *gin.Context) {
+	_, err := c.Cookie("user")
+	if err == nil {
+		// Get data from DB
+		usersData := datamysql.GetNotAdminUsers()
+		returningResult := gin.H{
+			"users": usersData,
+		}
+		admin, _ := c.Cookie("admin")
+
+		if admin == "true" {
+			returningResult["admin"] = true
+		}
+		c.HTML(200, "all_users.html", returningResult)
+	} else {
+
+		c.Redirect(http.StatusFound, "/login")
+	}
+}
+
+func DeleteUser(c *gin.Context) {
+	user_id := c.Param("id")
+
+	datamysql.DelUser(user_id)
 }

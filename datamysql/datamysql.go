@@ -54,22 +54,16 @@ func ExtractData(db *sqlx.DB, login string, password string) model.Is_login { //
 
 }
 
-func AddData(db *sqlx.DB) {
-	result, err := db.Exec("insert into employees (id, first_name,last_name,post) values (?,?, ?, ?)", "8", "fuck", "fuck", "fuck")
+func DelUser(id string) {
+	_, err := Db.Exec("DELETE FROM task_for_emp WHERE emp_id = ? ", id)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(result.LastInsertId()) // id добавленного объекта
-	fmt.Println(result.RowsAffected()) // количество затронутых строк
-}
 
-func DelData(db *sqlx.DB) {
-	result, err := db.Exec("delete from employees where id = ?", "8")
-	if err != nil {
+	_, err1 := Db.Exec("delete from employees where id = ?", id)
+	if err1 != nil {
 		panic(err)
 	}
-	fmt.Println(result.LastInsertId()) // id последнего удаленого объекта
-	fmt.Println(result.RowsAffected()) // количество затронутых строк
 
 }
 func ExtractData_Projects() []model.Projects {
@@ -157,12 +151,12 @@ func ExtractDataTask(id string) model.Task { //получение пользов
 func ExtractDataUsers() []model.User_DB { //получение пользователя из бд
 	var u model.User_DB
 	var users []model.User_DB
-	res, err := Db.Query("SELECT `id`, `first_name`,`last_name` FROM `employees`;")
+	res, err := Db.Query("SELECT `id`, `first_name`,`last_name`, `login` FROM `employees`;")
 	if err != nil {
 		panic(err)
 	}
 	for res.Next() {
-		err = res.Scan(&u.Id, &u.FName, &u.LName)
+		err = res.Scan(&u.Id, &u.FName, &u.LName, &u.Login)
 		if err != nil {
 			panic(err)
 		}
@@ -233,13 +227,32 @@ func ExtractDataProject_and_Task(id string) []model.Task { //получение 
 	return u_mas
 
 }
-func AddPerson(login string, password string, first_name string, last_name string) {
-	result, err := Db.Exec("insert into employees (login, password, first_name,last_name, is_admin ) values (?, ?, ?,?, 0)", login, password, first_name, last_name)
+func AddPerson(login string, password string, first_name string, last_name string) bool {
+	var count_users int
+
+	res, err := Db.Query("SELECT COUNT(id) FROM employees WHERE login = ?;", login)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(result.LastInsertId()) // id добавленного объекта
-	fmt.Println(result.RowsAffected()) // количество затронутых строк
+	for res.Next() {
+		err = res.Scan(&count_users)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	if count_users == 0 {
+		result, err := Db.Exec("insert into employees (login, password, first_name,last_name, is_admin ) values (?, ?, ?,?, 0)", login, password, first_name, last_name)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(result.LastInsertId()) // id добавленного объекта
+		fmt.Println(result.RowsAffected()) // количество затронутых строк
+		return true
+	} else {
+		return false
+	}
+
 }
 
 func AddProject(name string, description string, colour string, text_colour string) {
@@ -250,6 +263,7 @@ func AddProject(name string, description string, colour string, text_colour stri
 	fmt.Println(result.LastInsertId()) // id добавленного объекта
 	fmt.Println(result.RowsAffected()) // количество затронутых строк
 }
+
 func AddTask(name string, start_date string, end_date string, description string, id_project string, person []string) {
 	result, err := Db.Exec("insert into tasks (name, start_date, end_date, description, project_id) values (?, STR_TO_DATE(?, '%Y-%m-%d'), STR_TO_DATE(?, '%Y-%m-%d'), ?, ?)", name, start_date, end_date, description, id_project)
 	if err != nil {
@@ -272,13 +286,23 @@ func AddTask(name string, start_date string, end_date string, description string
 	}
 	fmt.Println(id_task)
 	for i := 0; i < len(person); i++ {
-		result1, err1 := Db.Exec("insert into task_for_emp (task_id, emp_id) values (?,?)", id_task, person[i])
+		_, err1 := Db.Exec("insert into task_for_emp (task_id, emp_id) values (?,?)", id_task, person[i])
 		if err1 != nil {
 			panic(err)
 		}
-		fmt.Println(result1.LastInsertId()) // id добавленного объекта
-		fmt.Println(result1.RowsAffected()) // количество затронутых строк
 	}
+
+	res_date, err_date := Db.Exec("update  projects set start_date = (SELECT MIN(start_date) FROM tasks WHERE project_id = ?) WHERE id = ?", id_project, id_project)
+	if err_date != nil {
+		panic(err_date)
+	}
+	fmt.Println(res_date)
+
+	res_date1, err_date1 := Db.Exec("update  projects set end_date = (SELECT MAX(end_date) FROM tasks WHERE project_id = ?) WHERE id = ?", id_project, id_project)
+	if err_date1 != nil {
+		panic(err_date)
+	}
+	fmt.Println(res_date1)
 
 }
 func UpdateProject(id string, name string, description string, colour string, text_colour string) {
@@ -310,16 +334,37 @@ func UpdateTask(id string, name string, start_date string, end_date string, desc
 		}
 	}
 
-	fmt.Println(id_task)
+	var id_project string
+
+	res, err := Db.Query("SELECT project_id FROM tasks WHERE id = ?;", id)
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&id_project)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	_, err_date := Db.Exec("update  projects set start_date = (SELECT MIN(start_date) FROM tasks WHERE project_id = ?) WHERE id = ?", id_project, id_project)
+	if err_date != nil {
+		panic(err_date)
+	}
+
+	_, err_date1 := Db.Exec("update  projects set end_date = (SELECT MAX(end_date) FROM tasks WHERE project_id = ?)  WHERE id = ?", id_project, id_project)
+	if err_date1 != nil {
+		panic(err_date)
+	}
+
 	for i := 0; i < len(person); i++ {
-		result2, err2 := Db.Exec("insert into task_for_emp (task_id, emp_id) values (?,?)", id_task, person[i])
+		fmt.Println(i)
+		_, err2 := Db.Exec("insert into task_for_emp (task_id, emp_id) values (?,?)", id_task, person[i])
 		if err2 != nil {
 			panic(err)
 		}
-		fmt.Println(result2.LastInsertId()) // id добавленного объекта
-		fmt.Println(result2.RowsAffected()) // количество затронутых строк
+		fmt.Println(i)
 	}
-
 }
 
 func DeleteTaskFromDB(id string, task_id string) {
@@ -330,6 +375,36 @@ func DeleteTaskFromDB(id string, task_id string) {
 	result1, err1 := Db.Exec("DELETE FROM tasks WHERE id = ? AND project_id = ?", task_id, id)
 	if err1 != nil {
 		panic(err)
+	}
+
+	var count_tasks int
+
+	res, err := Db.Query("SELECT COUNT(id) FROM tasks WHERE project_id = ?;", id)
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&count_tasks)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	if count_tasks > 0 {
+		_, err_date := Db.Exec("update  projects set start_date = (SELECT MIN(start_date) FROM tasks WHERE project_id = ?) WHERE id = ?", id, id)
+		if err_date != nil {
+			panic(err_date)
+		}
+
+		_, err_date1 := Db.Exec("update  projects set end_date = (SELECT MAX(end_date) FROM tasks WHERE project_id = ?)  WHERE id = ?", id, id)
+		if err_date1 != nil {
+			panic(err_date)
+		}
+	} else {
+		_, err_date := Db.Exec("update  projects set start_date = sysdate(), end_date = sysdate() WHERE id = ?", id)
+		if err_date != nil {
+			panic(err_date)
+		}
 	}
 	fmt.Println(result.RowsAffected())
 	fmt.Println(result1.RowsAffected()) // количество затронутых строк
@@ -352,4 +427,24 @@ func DeleteProjectFromDB(id string) {
 	fmt.Println(result.RowsAffected())
 	fmt.Println(result1.RowsAffected()) // количество затронутых строк
 	fmt.Println(result2.RowsAffected())
+}
+
+func GetNotAdminUsers() []model.User_DB { //получение пользователя из бд
+	var u model.User_DB
+	var users []model.User_DB
+	res, err := Db.Query("SELECT `id`, `first_name`,`last_name`, `login` FROM `employees` WHERE is_admin=0;")
+	if err != nil {
+		panic(err)
+	}
+	for res.Next() {
+		err = res.Scan(&u.Id, &u.FName, &u.LName, &u.Login)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(fmt.Sprintf("in database have %s , %s ", u.FName, u.LName))
+		users = append(users, u)
+	}
+	fmt.Println(users)
+	fmt.Println(u.LName, " ", u.FName) //пример как вырывать параметры из запроса
+	return users
 }
